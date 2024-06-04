@@ -10,6 +10,10 @@ function UserPage() {
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
       <LogOutButton className="btn" />
+      <button>My Trees</button>
+      <button>Add Tree</button>
+      <button>Archive</button>
+      <button>Links</button>
     </div>
   );
 }
