@@ -20,8 +20,11 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import MyTrees from '../MyTrees/MyTrees';
-
+import AddTree from '../AddTree/AddTree';
+import Archive from '../Archive/Archive';
+import Links from '../Links/Links';
 import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +76,24 @@ function App() {
           exact path="/myTrees">
 
             <MyTrees />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact path="/addTree">
+
+            <AddTree />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact path="/archive">
+
+            <Archive />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact path="/links">
+
+            <Links/>
           </ProtectedRoute>
 
           <Route

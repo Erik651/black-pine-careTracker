@@ -5,7 +5,7 @@ import React from "react";
 
 function MyTrees() {
 return (
-  <div>Test</div>
+  <div>My Trees</div>
 )
 }
 

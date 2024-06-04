@@ -36,6 +36,18 @@ function Nav() {
             My Trees
             </Link>
 
+            <Link className="navLink" to="/addTree">
+              Add New Tree
+            </Link>
+
+            <Link className="navLink" to="/archive">
+              Archive
+            </Link>
+
+            <Link className="navLink" to="/links">
+              Links
+            </Link>
+
             <LogOutButton className="navLink" />
           </>
         )}
