@@ -32,6 +32,10 @@ function Nav() {
               Info Page
             </Link>
 
+            <Link className="navLink" to="/myTrees">
+            My Trees
+            </Link>
+
             <LogOutButton className="navLink" />
           </>
         )}

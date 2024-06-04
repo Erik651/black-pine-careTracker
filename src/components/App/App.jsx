@@ -19,6 +19,7 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import MyTrees from '../MyTrees/MyTrees';
 
 import './App.css';
 
@@ -66,6 +67,12 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact path="/myTrees">
+
+            <MyTrees />
           </ProtectedRoute>
 
           <Route
