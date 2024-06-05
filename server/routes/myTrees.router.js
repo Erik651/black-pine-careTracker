@@ -7,6 +7,19 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
+  const query = `
+  SELECT * FROM "trees" 
+  ORDER BY "name";
+  `;
+  pool
+  .query(query)
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch((error) => {
+    console.log('Error: GET all trees', error);
+    res.sendStatus(500);
+  });
 });
 
 /**
