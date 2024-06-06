@@ -1,3 +1,5 @@
+import { takeLatest } from "redux-saga/effects";
+
 function* selectedTree(action) {
   try {
     const tree = yield axios.get(`/api/trees/${action.payload}`);
@@ -10,3 +12,10 @@ function* selectedTree(action) {
     console.log('selectedTree error:', error);
   }
 }
+
+
+function* selectedTree() {
+  yield takeLatest('FETCH_SELECTED_TREE', selectedTree);
+}
+
+export default selectedTree;

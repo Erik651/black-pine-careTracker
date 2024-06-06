@@ -14,8 +14,8 @@ function* addTree(action) {
 
 //export default addTreeSaga;
 
-function* treesSaga() {
+function* addTreeSaga() {
   yield takeLatest('ADD_TREE', addTree);
 }
 
-export default treesSaga;
+export default addTreeSaga;
