@@ -26,7 +26,53 @@ router.get('/', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-  // POST route code here
+  console.log(req.body);
+
+  const insertAddTreeQuery = 
+  `
+  INSERT INTO "trees"
+  ("name", "dob", "images")
+  VALUES
+  ($1, $2, $3)
+  RETURNING "id";
+  `;
+  const insertAddTreeValues = [
+    req.body.name,
+    req.body.dob,
+    req.body.images,
+  ];
+  pool
+  .query(insertAddTreeQuery, insertAddTreeValues)
+  .then((result) => {
+    console.log('New Tree ID:', result.rows[0].id);
+    //const createdAddedTreeId = results.rows[0].id;
+    res.sendStatus(201);
+  })
+  .catch((error) => {
+    console.log(error);
+    res.sendStatus(500);
+  });
 });
 
 module.exports = router;
+
+
+router.put ('/:id', (req, res) => {
+  const queryText = `UPDATE "trees" SET "name" = $1, "dob" = $2, "images" = $3
+  WHERE "id" = $4, "user_id" = $5;
+  ` 
+  pool.query(queryText, [
+    req.body.name,
+    req.body.dob,
+    req.body.images,
+    req.params.id,
+  ])
+  .then(results => {
+    res.sendStatus(200);
+  })
+  .catch(error => {
+    console.log(error);
+    res.sendStatus(500);
+  });
+  
+});

@@ -12,10 +12,10 @@ function* addTree(action) {
   }
 }
 
-export default addTreeSaga;
+//export default addTreeSaga;
 
-// function* treesSaga() {
-//   yield takeLatest('FETCH_TREES', fetchAllTrees);
-// }
+function* treesSaga() {
+  yield takeLatest('ADD_TREE', addTree);
+}
 
-// export default treesSaga;
+export default treesSaga;

@@ -5,10 +5,11 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 function* fetchAllTrees() {
   try {
-    const trees = yield axios.get('/api/trees');
+    const response = yield axios.get('/api/trees');
+    console.log('response', response)
     yield put({
       type: 'SET_TREES',
-      payload: trees.data,
+      payload: response.data,
     });
   }catch (error) {
     console.log('fetchAllTrees error', error);
