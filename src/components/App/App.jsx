@@ -23,6 +23,7 @@ import MyTrees from '../MyTrees/MyTrees';
 import AddTree from '../AddTree/AddTree';
 import Archive from '../Archive/Archive';
 import Links from '../Links/Links';
+import EditTree from '../EditTree/EditTree';
 import './App.css';
 
 
@@ -77,6 +78,13 @@ function App() {
 
             <MyTrees />
           </ProtectedRoute>
+
+          <ProtectedRoute
+          exact path="/editTree">
+
+            <EditTree />
+          </ProtectedRoute>
+
 
           <ProtectedRoute
           exact path="/addTree">
