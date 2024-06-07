@@ -1,3 +1,7 @@
+import { takeLatest } from 'redux-saga/effects';
+import axios from 'axios';
+
+
 function* editTree(action) {
   try {
     yield axios.put(`/api/trees/${action.payload.id}`, action.payload);
@@ -9,8 +13,8 @@ function* editTree(action) {
   }
 }
 
-function* treesSaga() {
+function* editTreesSaga() {
   yield takeLatest('EDIT_TREE', editTree);
 }
 
-export default treesSaga;
+export default editTreesSaga;

@@ -1,4 +1,5 @@
-import { takeLatest } from "redux-saga/effects";
+import { put, takeLatest } from 'redux-saga/effects';
+import axios from 'axios';
 
 function* selectedTree(action) {
   try {
@@ -6,16 +7,15 @@ function* selectedTree(action) {
 
     yield put({
       type: 'SET_SELECTED_TREE',
-      payload: tree.data
+      payload: tree.data,
     });
   } catch (error) {
     console.log('selectedTree error:', error);
   }
 }
 
-
-function* selectedTree() {
+function* selectedTreeSaga() {
   yield takeLatest('FETCH_SELECTED_TREE', selectedTree);
 }
 
-export default selectedTree;
+export default selectedTreeSaga;

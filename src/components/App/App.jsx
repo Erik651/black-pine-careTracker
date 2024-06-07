@@ -24,13 +24,13 @@ import AddTree from '../AddTree/AddTree';
 import Archive from '../Archive/Archive';
 import Links from '../Links/Links';
 import EditTree from '../EditTree/EditTree';
+import MyTreesItem from '../MyTreesItem/MyTreesItem';
 import './App.css';
-
 
 function App() {
   const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -73,77 +73,61 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-          exact path="/myTrees">
-
+          <ProtectedRoute exact path="/myTrees">
             <MyTrees />
           </ProtectedRoute>
 
-          <ProtectedRoute
-          exact path="/editTree">
-
+          <ProtectedRoute exact path="/editTree/:id">
             <EditTree />
           </ProtectedRoute>
 
+          <ProtectedRoute exact path="/myTreesItem">
+            <MyTreesItem />
+          </ProtectedRoute>
 
-          <ProtectedRoute
-          exact path="/addTree">
-
+          <ProtectedRoute exact path="/addTree">
             <AddTree />
           </ProtectedRoute>
 
-          <ProtectedRoute
-          exact path="/archive">
-
+          <ProtectedRoute exact path="/archive">
             <Archive />
           </ProtectedRoute>
 
-          <ProtectedRoute
-          exact path="/links">
-
-            <Links/>
+          <ProtectedRoute exact path="/links">
+            <Links />
           </ProtectedRoute>
 
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/login">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the login page
               <LoginPage />
-            }
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/registration">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the registration page
               <RegisterPage />
-            }
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/home"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/home">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the Landing page
               <LandingPage />
-            }
+            )}
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}

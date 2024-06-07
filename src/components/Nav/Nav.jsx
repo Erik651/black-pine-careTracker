@@ -36,6 +36,10 @@ function Nav() {
             My Trees
             </Link>
 
+            <Link className="navLink" to="/editTree">
+            Edit Tree
+            </Link>
+
             <Link className="navLink" to="/addTree">
               Add New Tree
             </Link>
