@@ -14,13 +14,14 @@ function MyTreesItem() {
   return (
     <div>
       <h1>{treeId}</h1>
-      <h3>{tree.name}</h3>
+      {/* <h3>{tree.name}</h3> */}
       <section className="myTreesItem">
         <div id={tree.id} key={tree.id}>
           <h3>{tree.name}</h3>
-          <Link to={`/editTree/${tree.id}`}>Edit</Link>
-          <img src={`/${tree.images}`} />
           <h3>{tree.dob}</h3>
+          <img src={`/${tree.images}`} />
+          <h5>{tree.notes}</h5>
+          <Link to={`/editTree/${tree.id}`}>Edit</Link>
         </div>
       </section>
     </div>

@@ -5,6 +5,7 @@ import axios from 'axios';
 function* editTree(action) {
   try {
     yield axios.put(`/api/trees/${action.payload.id}`, action.payload);
+    console.log(action.payload.name, "action.payload.name")
     if (action.history) {
       action.history.goBack();
     }

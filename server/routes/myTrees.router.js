@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', (req, res) => {
   const query = `SELECT * FROM trees WHERE "id"=$1;`;
 
   pool
@@ -44,12 +44,18 @@ router.post('/', (req, res) => {
 
   const insertAddTreeQuery = `
   INSERT INTO "trees"
-  ("name", "dob", "images")
+  ("name", "dob", "images", "notes")
   VALUES
-  ($1, $2, $3)
+  ($1, $2, $3, $4)
   RETURNING "id";
   `;
-  const insertAddTreeValues = [req.body.name, req.body.dob, req.body.images];
+  const insertAddTreeValues = [
+    req.body.name,
+    req.body.dob,
+    req.body.images,
+    req.body.notes,
+  ];
+
   pool
     .query(insertAddTreeQuery, insertAddTreeValues)
     .then((result) => {
@@ -63,24 +69,34 @@ router.post('/', (req, res) => {
     });
 });
 
-module.exports = router;
-
 router.put('/:id', (req, res) => {
-  const queryText = `UPDATE "trees" SET "name" = $1, "dob" = $2, "images" = $3
-  WHERE "id" = $4, "user_id" = $5;
+  const queryText = `UPDATE "trees"
+  SET "name" = $1, "dob" = $2, "images" = $3, "notes" = $6
+  WHERE "id" = $4 AND "user_id" = $5;
   `;
+
+  const queryValues = [
+    req.body.name,
+    req.body.dob,
+    req.body.images,
+    req.params.id,
+    req.user.id,
+    req.body.notes,
+  ];
+
+  console.log('Executing query:', queryText);
+  console.log('With values:', queryValues);
+
   pool
-    .query(queryText, [
-      req.body.name,
-      req.body.dob,
-      req.body.images,
-      req.params.id,
-    ])
-    .then((results) => {
+    .query(queryText, queryValues)
+    .then((result) => {
       res.sendStatus(200);
     })
     .catch((error) => {
-      console.log(error);
+      console.log('Error executing query:', error.message);
+      console.log('ERROR details:', error);
       res.sendStatus(500);
     });
 });
+
+module.exports = router;

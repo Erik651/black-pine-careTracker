@@ -81,7 +81,7 @@ function App() {
             <EditTree />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/myTreesItem">
+          <ProtectedRoute exact path="/myTreesItem/:id">
             <MyTreesItem />
           </ProtectedRoute>
 
