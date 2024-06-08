@@ -5,6 +5,8 @@ import { useHistory, useParams } from 'react-router-dom';
 
 function EditTree() {
   const tree = useSelector((store) => store.selectedTree);
+  const statuses = useSelector((store) => store.status);
+  const [selectedStatus, setSelectedStatus] = useState('');
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [images, setImages] = useState('');
@@ -27,15 +29,16 @@ function EditTree() {
       setDob(tree.dob || '');
       setImages(tree.images || '');
       setNotes(tree.notes || '');
+      setSelectedStatus(tree.status_id || '')
     }
   }, [tree, id]);
 
   const submitForm = (event) => {
     event.preventDefault();
-    const payload = { name, dob, images, notes, id };
+    const payload = { name, dob, images, notes, status_id: selectedStatus,id };
     dispatch({
       type: 'EDIT_TREE',
-      payload: { name, dob, images, notes, id },
+      payload: { name, dob, images, notes, status_id: selectedStatus, id },
       history,
     });
     console.log(payload, 'submitForm payload');
@@ -74,6 +77,20 @@ function EditTree() {
             onChange={(event) => setNotes(event.target.value)}
           />
         </p>
+        <select
+          value={selectedStatus}
+          onChange={(event) => setSelectedStatus(event.target.value)}
+        >
+          <option value="" disabled>
+            Change Status
+          </option>
+          {statuses.map((status) => (
+            <option key={status.id} value={status.id}>
+              {status.status_name}
+            </option>
+          ))}
+        </select>
+
         <input type="submit" />
       </form>
     </div>

@@ -22,6 +22,7 @@ export default function* rootSaga() {
     treesSaga(),
     addTreeSaga(),
     selectedTreeSaga(),
-    editTreesSaga()
+    editTreesSaga(),
+    fetchAllStatusesSaga(),
   ]);
 }
