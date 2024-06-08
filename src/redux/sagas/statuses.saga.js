@@ -17,4 +17,4 @@ function* fetchAllStatusesSaga() {
   yield takeLatest('FETCH_ALL_STATUSES', fetchAllStatuses);
 }
 
-export default treesSaga;
+export default fetchAllStatusesSaga;
