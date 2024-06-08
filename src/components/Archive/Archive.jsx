@@ -21,7 +21,7 @@ function Archive() {
     <main>
       <h1>SOLD</h1>
       <section className="archiveSold">
-        {trees.filter(tree => tree.status_id === 1).map((tree) => {
+        {trees.filter(tree => tree.status_id === 2).map((tree) => {
           return (
             <div
               onClick={(event) => displayTreeItem(tree.id)}
@@ -38,7 +38,7 @@ function Archive() {
 
 <h1>R.I.P.</h1>
       <section className="archiveRip">
-        {trees.filter(tree => tree.status_id === 2).map((tree) => {
+        {trees.filter(tree => tree.status_id === 4).map((tree) => {
           return (
             <div
               onClick={(event) => displayTreeItem(tree.id)}
