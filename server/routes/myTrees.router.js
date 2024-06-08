@@ -71,7 +71,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   const queryText = `UPDATE "trees"
-  SET "name" = $1, "dob" = $2, "images" = $3, "notes" = $6
+  SET "name" = $1, "dob" = $2, "images" = $3, "notes" = $6, "status_id" = $7
   WHERE "id" = $4 AND "user_id" = $5;
   `;
 
@@ -82,6 +82,7 @@ router.put('/:id', (req, res) => {
     req.params.id,
     req.user.id,
     req.body.notes,
+    req.body.status_id,
   ];
 
   console.log('Executing query:', queryText);
