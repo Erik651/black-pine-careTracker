@@ -22,7 +22,7 @@ function MyTrees() {
       <h1>My Trees</h1>
       <p>{trees.name}</p>
       <section className="myTrees">
-        {trees.map((tree) => {
+        {trees.filter(tree => tree.status_id === 1).map((tree) => {
           return (
             <div
               onClick={(event) => displayTreeItem(tree.id)}
