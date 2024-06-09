@@ -5,7 +5,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 function* fetchTree_Activity() {
   try {
-    const response = yield axios.get('/api/trees');
+    const response = yield axios.get('/api/tree_activity');
     console.log('response', response)
     yield put({
       type: 'SET_DATES',
@@ -17,7 +17,7 @@ function* fetchTree_Activity() {
 }
 
 function* tree_ActivitySaga() {
-  yield takeLatest('FETCH_TREE_ACTIVITY_DATE', fetchTree_Activity);
+  yield takeLatest('FETCH_TREE_ACTIVITY_DATES', fetchTree_Activity);
 }
 
 export default tree_ActivitySaga;

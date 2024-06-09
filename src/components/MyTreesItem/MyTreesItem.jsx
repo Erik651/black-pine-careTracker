@@ -5,7 +5,7 @@ import { useParams, Link, useHistory } from 'react-router-dom';
 function MyTreesItem() {
   const dispatch = useDispatch();
   const tree = useSelector((store) => store.selectedTree);
-  const dateToDisplay = useSelector((store) => store.date_text)
+  const dateToDisplay = useSelector((store) => store.tree_activity)
   const [fertilizeDate, setFertilizeDate] = useState('');
   const [pruneDate, setPruneDate] = useState('');
   const [decandleDate, setDecandleDate] = useState('');
@@ -19,13 +19,13 @@ function MyTreesItem() {
   }, [treeId]);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_ACTION_DATES', payload: id})
-  }, [dispatch, id]);
+    dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId})
+  }, [dispatch, treeId]);
 
   useEffect(() => {
     setDecandleDate()
   })
-
+console.log('dateToDisplay', dateToDisplay)
   return (
     <div>
       <h1>{treeId}</h1>

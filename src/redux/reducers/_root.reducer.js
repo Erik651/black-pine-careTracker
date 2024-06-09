@@ -4,6 +4,7 @@ import user from './user.reducer';
 import trees from './trees.reducer';
 import selectedTree from './selectedTree.reducer';
 import statuses from './statuses.reducer';
+import tree_activity from './tree_activity.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   trees,
   selectedTree,
   statuses,
+  tree_activity,
 });
 
 export default rootReducer;
