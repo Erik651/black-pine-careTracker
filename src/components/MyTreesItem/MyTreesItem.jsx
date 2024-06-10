@@ -20,12 +20,12 @@ function MyTreesItem() {
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
   }, [treeId]);
 
-  const submitForm = (event) => {
+  const submitForm = (event, activityId, date) => {
     event.preventDefault();
-    const payload = { tree_id, date_text, activity_id, id };
+    const payload = { date_text: date, treeId, activity_id: activityId };
     dispatch({
       type: 'UPDATE_ACTIVITY_DATE',
-      payload: { tree_id, date_text, activity_id, id },
+      payload,
       history,
     });
     console.log(payload, 'submitForm UPDATE_ACTIVITY_DATE payload');
@@ -51,30 +51,43 @@ function MyTreesItem() {
                 <Link to={`/editTree/${tree.id}`}>Edit</Link>
               </div>
               <div>
-             
-               <> <form onSubmit={submitForm}>
-                  <h1>Care Action Taken</h1>
-                  <h2>--Fertilize--</h2>
-                  <h4>Next Best Date to Fertilize</h4>
-                  <h5>display date</h5>
-                  <h4>Last Date Fertilize Applied</h4>
-                  <h5>display date</h5>
-                  <h5>{dateToDisplay.date_text}</h5>
-                  <h4>Enter new date of Fertilizing </h4>
-                  <input
-                    type="date"
-                    value={fertilizeDate}
-                    placeholder={fertilizeDate}
-                    onChange={(event) => setFertilizeDate(event.target.value)}
-                  />
+                <>
+                  {' '}
+                  <form
+                    onSubmit={(event) => submitForm(event, 1, fertilizeDate)}
+                  >
+                    <h1>Care Action Taken</h1>
+                    <h2>--Fertilize--</h2>
+                    {datesToDisplay
+                      .filter(
+                        (dateToDisplay) =>
+                          dateToDisplay.tree_id === tree.id &&
+                          dateToDisplay.activity_id === 1
+                      )
+                      .map((dateToDisplay) => (
+                        <div key={dateToDisplay.id}>
+                          <h4>Next Best Date to Fertilize</h4>
+                          {/* <h5>{dateToDisplay.nextBestDateFertilize}</h5> */}
+                          <h4>Last Date Fertilize Applied</h4>
+                          <h5>{dateToDisplay.date_text}</h5>
+                          <h4>Enter new date of Fertilizing </h4>
+                          <input
+                            type="date"
+                            value={fertilizeDate}
+                            placeholder={fertilizeDate}
+                            onChange={(event) =>
+                              setFertilizeDate(event.target.value)
+                            }
+                          />
+                        </div>
+                      ))}
 
-                  <button>Submit</button>
-                </form></>
-              
+                    <button>Submit</button>
+                  </form>
+                </>
 
                 <h2>--Prune--</h2>
                 <h4>Next Best Date to Prune</h4>
-                <h5>{dateToDisplay.date}</h5>
                 <h4>Last Date of Pruning</h4>
                 <h5>display date</h5>
                 <h4>Enter new date of Pruning</h4>

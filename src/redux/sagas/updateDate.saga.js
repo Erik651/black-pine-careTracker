@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function* updateDate(action) {
   try {
-    yield axios.put(`/api/trees/${action.payload.id}`, action.payload);
+    yield axios.put(`/api/tree_activity/${action.payload.id}`, action.payload);
     console.log(action.payload.date_text, "action.payload.date_text")
     if (action.history) {
       action.history.goBack();

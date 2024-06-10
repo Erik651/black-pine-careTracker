@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     .query(query)
     .then((result) => {
       res.send(result.rows);
-      console.log(query)
+      console.log(query);
     })
     .catch((error) => {
       console.log('Error: GET all status', error);
@@ -20,26 +20,19 @@ router.get('/', (req, res) => {
     });
 });
 
-
 router.put('/:id', (req, res) => {
   const queryText = `UPDATE "tree_activity"
   SET
-      "tree_id" = $1,
-      "date_text" = $2,
-      "activity_id" = $3
+      
+      "date_text" = $1
+      
   WHERE
-      "id" = $4 and "user_id" = $5;
+  "tree_id" = $2 AND "activity_id" = $3
       `;
 
-      const queryValues = [
-        req.body.tree_id,
-        req.body.date_text,
-        req.body.activity_id,
-        req.params.id,
-        req.user.id,
-      ];
-      
-      console.log('Executing query:', queryText);
+  const queryValues = [req.body.date_text, req.body.treeId, req.body.activity_id];
+
+  console.log('Executing query:', queryText);
   console.log('With values:', queryValues);
 
   pool
@@ -53,6 +46,5 @@ router.put('/:id', (req, res) => {
       res.sendStatus(500);
     });
 });
-
 
 module.exports = router;
