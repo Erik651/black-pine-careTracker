@@ -8,6 +8,7 @@ import editTreesSaga from './editTree.saga';
 import addTreeSaga from './addTree.saga';
 import fetchAllStatusesSaga from './statuses.saga';
 import tree_ActivitySaga from './tree_activity.saga';
+import updateDateSaga from './updateDate.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -27,5 +28,6 @@ export default function* rootSaga() {
     editTreesSaga(),
     fetchAllStatusesSaga(),
     tree_ActivitySaga(),
+    updateDateSaga(),
   ]);
 }

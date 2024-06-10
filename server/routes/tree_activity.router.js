@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
     .query(query)
     .then((result) => {
       res.send(result.rows);
+      console.log(query)
     })
     .catch((error) => {
       console.log('Error: GET all status', error);
