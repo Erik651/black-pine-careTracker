@@ -67,6 +67,7 @@ function MyTreesItem() {
           <h1>{treeToDisplay.name}</h1>
           <h3>{treeToDisplay.dob}</h3>
           <img src={`/${treeToDisplay.images}`} />
+          <Link to={`/editTree/${treeToDisplay.id}`}>Edit</Link>
           <FertilizeForm
             datesToDisplay={filteredDates.filter(
               (date) => date.activity_id === 1

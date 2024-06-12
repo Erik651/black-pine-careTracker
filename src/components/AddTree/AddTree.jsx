@@ -28,6 +28,7 @@ function AddTree() {
         <p>Name: <input value={name} onChange={(event) => setName(event.target.value)}/></p>
         <p>D.O.B <input value={dob} onChange={(event) => setDob(event.target.value)}/></p>
         <p>Image <input value={image} onChange={(event) => setImage(event.target.value)}/></p>
+        <p>Add input dates of fertilize, prune, wire, repot, decandle</p>
         <input type="submit" />
       </form>
     </div>
