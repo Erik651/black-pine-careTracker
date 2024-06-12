@@ -6,6 +6,7 @@ import PruneForm from '../PruneForm/PruneForm';
 import DecandleForm from '../DecandleForm/DecandleForm';
 import WireForm from '../WireForm/WireForm';
 import RepotForm from '../RepotForm/RepotForm';
+import './MyTreesItem.css';
 
 function MyTreesItem() {
   const dispatch = useDispatch();
