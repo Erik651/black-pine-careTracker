@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link, useHistory } from 'react-router-dom';
+import FertilizeForm from '../FertilizeForm/FertilizeForm';
+import PruneForm from '../PruneForm/PruneForm';
+import DecandleForm from '../DecandleForm/DecandleForm';
+import WireForm from '../WireForm/WireForm';
+import RepotForm from '../RepotForm/RepotForm';
 
 function MyTreesItem() {
   const dispatch = useDispatch();
-  const tree = useSelector((store) => store.selectedTree);
+  const treeToDisplay = useSelector((store) => store.selectedTree);
   const datesToDisplay = useSelector((store) => store.tree_activity);
   const [fertilizeDate, setFertilizeDate] = useState('');
   const [pruneDate, setPruneDate] = useState('');
@@ -18,6 +23,7 @@ function MyTreesItem() {
     console.log('in MyTreesItem useEffect');
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
+    console.log(treeId, 'treeId from dispatch')
   }, [treeId]);
 
   const submitForm = (event, activityId, date) => {
@@ -32,122 +38,88 @@ function MyTreesItem() {
   };
 
   console.log('datesToDisplay', datesToDisplay);
+  if (!treeToDisplay) {
+    return <div>Loading...</div>;
+  }
 
+  const normalizedTreeId = parseInt(treeId, 10);
+  
+  // Log the treeId to ensure it's being correctly retrieved and its type
+  console.log('treeId:', treeId, typeof treeId);
+  console.log('normalizedTreeId:', normalizedTreeId, typeof normalizedTreeId);
+
+  // Apply filter and log intermediate results
+  const filteredDates = datesToDisplay.filter((date) => {
+    const isMatch = date.tree_id === normalizedTreeId;
+    console.log('date.tree_id:', date.tree_id, typeof date.tree_id, 'isMatch:', isMatch);
+    return isMatch;
+  });
+
+  console.log(filteredDates, 'filtered Dates')
+
+  
   return (
     <div>
       <h1>{treeId}</h1>
+      <div>
+        {/* <h3>{tree.name}</h3> */}
+        <section className="myTreesItem">
+          <h1>{treeToDisplay.name}</h1>
+          <h3>{treeToDisplay.dob}</h3>
+          <img src={`/${treeToDisplay.images}`} />
+          <FertilizeForm
+            datesToDisplay={filteredDates.filter(
+              (date) => date.activity_id === 1
+            )}
+            fertilizeDate={fertilizeDate}
+            setFertilizeDate={setFertilizeDate}
+            submitForm={submitForm}
+          />
 
-      {/* <h3>{tree.name}</h3> */}
-      <section className="myTreesItem">
-        {datesToDisplay
-          .filter((dateToDisplay) => dateToDisplay.tree_id === tree.id)
-          .map((dateToDisplay) => (
-            <>
-              <div id={tree.id} key={tree.id}>
-                <h3>{tree.name}</h3>
-                <h3>{tree.dob}</h3>
-                <img src={`/${tree.images}`} />
-                <h5>{tree.notes}</h5>
-                <Link to={`/editTree/${tree.id}`}>Edit</Link>
-              </div>
-              <div>
-                <>
-                  {' '}
-                  <form
-                    onSubmit={(event) => submitForm(event, 1, fertilizeDate)}
-                  >
-                    <h1>Care Action Taken</h1>
-                    <h2>--Fertilize--</h2>
-                    {datesToDisplay
-                      .filter(
-                        (dateToDisplay) =>
-                          dateToDisplay.tree_id === tree.id &&
-                          dateToDisplay.activity_id === 1
-                      )
-                      .map((dateToDisplay) => (
-                        <div key={dateToDisplay.id}>
-                          <h4>Next Best Date to Fertilize</h4>
-                          {/* <h5>{dateToDisplay.nextBestDateFertilize}</h5> */}
-                          <h4>Last Date Fertilize Applied</h4>
-                          <h5>{dateToDisplay.date_text}</h5>
-                          <h4>Enter new date of Fertilizing </h4>
-                          <input
-                            type="date"
-                            value={fertilizeDate}
-                            placeholder={fertilizeDate}
-                            onChange={(event) =>
-                              setFertilizeDate(event.target.value)
-                            }
-                          />
-                        </div>
-                      ))}
+          <PruneForm
+            datesToDisplay={filteredDates.filter(
+              (date) => date.activity_id === 2
+            )}
+            pruneDate={pruneDate}
+            setPruneDate={setPruneDate}
+            submitForm={submitForm}
+          />
 
-                    <button>Submit</button>
-                  </form>
-                </>
+          <DecandleForm
+            datesToDisplay={filteredDates.filter(
+              (date) => date.activity_id === 3
+            )}
+            decandleDate={decandleDate}
+            setDecandleDate={setDecandleDate}
+            submitForm={submitForm}
+          />
 
-                <h2>--Prune--</h2>
-                <h4>Next Best Date to Prune</h4>
-                <h4>Last Date of Pruning</h4>
-                <h5>display date</h5>
-                <h4>Enter new date of Pruning</h4>
-                <input
-                  type="date"
-                  value={pruneDate}
-                  placeholder={pruneDate}
-                  onChange={(event) => setPruneDate(event.target.value)}
-                />
-                <button>Submit</button>
-                <br />
-                <h2>--Decandle--</h2>
-                <h4>Next Best Date to Decandle</h4>
-                <h5>display date</h5>
-                <h4>Last Date of Decandleing</h4>
-                <h5>display date</h5>
-                <h4>Enter new date of decandeling</h4>
-                <input
-                  type="date"
-                  value={decandleDate}
-                  placeholder={decandleDate}
-                  onChange={(event) => setDecandleDate(event.target.value)}
-                />
-                <button>Submit</button>
-                <br />
-                <h2>--Repot--</h2>
-                <h4>Next Best Date to Repot</h4>
-                <h5>display date</h5>
-                <h4>Last Date of Repotting</h4>
-                <h5>display date</h5>
-                <h4>Enter new date of repotting</h4>
-                <input
-                  type="date"
-                  value={repotDate}
-                  placeholder={repotDate}
-                  onChange={(event) => setRepotDate(event.target.value)}
-                />
-                <button>Submit</button>
-                <br />
-                <h2>--Wire--</h2>
-                <h4>Next Best Date to Wire</h4>
-                <h5>display date</h5>
-                <h4>Last Date of Wiring</h4>
-                <h5>display date</h5>
-                <h4>Enter New Date of Wiring</h4>
-                <input
-                  type="date"
-                  value={wireDate}
-                  placeholder={wireDate}
-                  onChange={(event) => setWireDate(event.target.value)}
-                />
-                <button>Submit</button>
-                <h4>!!! Alert !!!!</h4>
-                <h5>Alert if X is less then amount of time has passed </h5>
-                <h5>display how many days have passed</h5>
-                <h4>!!! Remove Wire !!!</h4>
-              </div>
-            </>
-          ))}
-      </section>
+          <WireForm
+            datesToDisplay={filteredDates.filter(
+              (date) => date.activity_id === 5
+            )}
+            wireDate={wireDate}
+            setWireDate={setWireDate}
+            submitForm={submitForm}
+          />
+
+          <RepotForm
+            datesToDisplay={filteredDates.filter(
+              (date) => date.activity_id === 4
+            )}
+            repotDate={repotDate}
+            setReotDate={setRepotDate}
+            submitForm={submitForm}
+          />
+
+          <br />
+
+          <h4>!!! Alert !!!!</h4>
+          <h5>Alert if X is less then amount of time has passed </h5>
+          <h5>display how many days have passed</h5>
+          <h4>!!! Remove Wire !!!</h4>
+        </section>
+      </div>
     </div>
   );
 }

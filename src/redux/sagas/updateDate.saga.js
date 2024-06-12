@@ -6,10 +6,9 @@ function* updateDate(action) {
   try {
     yield axios.put(`/api/tree_activity/${action.payload.id}`, action.payload);
     console.log(action.payload.date_text, "action.payload.date_text")
-    if (action.history) {
-      action.history.goBack();
+    window.location.reload()
     }
-  } catch (error) {
+   catch (error) {
     console.log('Error in updateDate PUT', error);
   }
 }
