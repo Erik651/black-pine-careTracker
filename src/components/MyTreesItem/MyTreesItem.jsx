@@ -109,7 +109,7 @@ function MyTreesItem() {
               (date) => date.activity_id === 4
             )}
             repotDate={repotDate}
-            setReotDate={setRepotDate}
+            setRepotDate={setRepotDate}
             submitForm={submitForm}
           />
 
