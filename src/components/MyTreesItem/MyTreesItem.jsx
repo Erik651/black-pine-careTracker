@@ -22,14 +22,23 @@ function MyTreesItem() {
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
-    return date.toLocaleDateString('en-CA'); // 'en-CA' for YYYY-MM-DD format
+    if (isNaN(date.getTime())) {
+      // Return a default value or an empty string if the date is invalid
+      return 'Invalid Date';
+    }
+    
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
   };
 
   useEffect(() => {
     console.log('in MyTreesItem useEffect');
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
-    console.log(treeId, 'treeId from dispatch')
+    console.log(treeId, 'treeId from dispatch');
   }, [treeId]);
 
   const submitForm = (event, activityId, date) => {
@@ -49,7 +58,7 @@ function MyTreesItem() {
   }
 
   const normalizedTreeId = parseInt(treeId, 10);
-  
+
   // Log the treeId to ensure it's being correctly retrieved and its type
   console.log('treeId:', treeId, typeof treeId);
   console.log('normalizedTreeId:', normalizedTreeId, typeof normalizedTreeId);
@@ -57,13 +66,17 @@ function MyTreesItem() {
   // Apply filter and log intermediate results
   const filteredDates = datesToDisplay.filter((date) => {
     const isMatch = date.tree_id === normalizedTreeId;
-    console.log('date.tree_id:', date.tree_id, typeof date.tree_id, 'isMatch:', isMatch);
+    console.log(
+      'date.tree_id:',
+      date.tree_id,
+      typeof date.tree_id,
+      'isMatch:',
+      isMatch
+    );
     return isMatch;
   });
 
-  console.log(filteredDates, 'filtered Dates')
-
-  
+  console.log(filteredDates, 'filtered Dates');
 
   const renderLastActionDates = () => {
     const activityTypes = {
@@ -71,17 +84,17 @@ function MyTreesItem() {
       2: 'Prune',
       3: 'Decandle',
       4: 'Repot',
-      5: 'Wire'
+      5: 'Wire',
     };
 
     return filteredDates.map((date) => (
       <div key={date.activity_id}>
-        Last {activityTypes[date.activity_id]} Date: {formatDate(date.date_text)}
+        Last {activityTypes[date.activity_id]} Date:{' '}
+        {formatDate(date.date_text)}
       </div>
     ));
   };
 
-  
   return (
     <div>
       <h1>{treeId}</h1>
@@ -95,40 +108,50 @@ function MyTreesItem() {
           <h3>Notes: {treeToDisplay.notes}</h3>
 
           <Link to={`/editTree/${treeToDisplay.id}`}>Edit</Link>
-          <br/>
-          <br/>
+          <br />
+          <br />
           {treeToDisplay.status_id === 1 && (
             <>
               <FertilizeForm
-                datesToDisplay={filteredDates.filter((date) => date.activity_id === 1)}
+                datesToDisplay={filteredDates.filter(
+                  (date) => date.activity_id === 1
+                )}
                 fertilizeDate={fertilizeDate}
                 setFertilizeDate={setFertilizeDate}
                 submitForm={submitForm}
               />
 
               <PruneForm
-                datesToDisplay={filteredDates.filter((date) => date.activity_id === 2)}
+                datesToDisplay={filteredDates.filter(
+                  (date) => date.activity_id === 2
+                )}
                 pruneDate={pruneDate}
                 setPruneDate={setPruneDate}
                 submitForm={submitForm}
               />
 
               <DecandleForm
-                datesToDisplay={filteredDates.filter((date) => date.activity_id === 3)}
+                datesToDisplay={filteredDates.filter(
+                  (date) => date.activity_id === 3
+                )}
                 decandleDate={decandleDate}
                 setDecandleDate={setDecandleDate}
                 submitForm={submitForm}
               />
 
               <WireForm
-                datesToDisplay={filteredDates.filter((date) => date.activity_id === 5)}
+                datesToDisplay={filteredDates.filter(
+                  (date) => date.activity_id === 5
+                )}
                 wireDate={wireDate}
                 setWireDate={setWireDate}
                 submitForm={submitForm}
               />
 
               <RepotForm
-                datesToDisplay={filteredDates.filter((date) => date.activity_id === 4)}
+                datesToDisplay={filteredDates.filter(
+                  (date) => date.activity_id === 4
+                )}
                 repotDate={repotDate}
                 setRepotDate={setRepotDate}
                 submitForm={submitForm}

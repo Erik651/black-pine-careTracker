@@ -1,0 +1,19 @@
+.myTrees {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Adjust the gap between items as needed */
+}
+
+.myTrees div {
+  flex: 1 1 calc(33.333% - 16px); /* Three items per row with a 16px gap */
+  box-sizing: border-box;
+  padding: 16px; /* Adjust the padding as needed */
+  border: 1px solid #ccc; /* Optional: Add a border for better visual separation */
+  margin: 8px 0; /* Adjust the margin as needed */
+  text-align: center; /* Center the text inside the divs */
+}
+
+.myTrees div img {
+  max-width: 100%; /* Make sure images are responsive */
+  height: auto;
+}
