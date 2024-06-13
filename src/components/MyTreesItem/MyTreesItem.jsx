@@ -20,6 +20,11 @@ function MyTreesItem() {
   const history = useHistory();
   const { id: treeId } = useParams();
 
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString('en-CA'); // 'en-CA' for YYYY-MM-DD format
+  };
+
   useEffect(() => {
     console.log('in MyTreesItem useEffect');
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
@@ -59,67 +64,83 @@ function MyTreesItem() {
   console.log(filteredDates, 'filtered Dates')
 
   
+
+  const renderLastActionDates = () => {
+    const activityTypes = {
+      1: 'Fertilize',
+      2: 'Prune',
+      3: 'Decandle',
+      4: 'Repot',
+      5: 'Wire'
+    };
+
+    return filteredDates.map((date) => (
+      <div key={date.activity_id}>
+        Last {activityTypes[date.activity_id]} Date: {formatDate(date.date_text)}
+      </div>
+    ));
+  };
+
+  
   return (
     <div>
       <h1>{treeId}</h1>
       <div>
         {/* <h3>{tree.name}</h3> */}
         <section className="myTreesItem">
-          <h1>{treeToDisplay.name}</h1>
-          <h3>{treeToDisplay.dob}</h3>
+          <h1>Name: {treeToDisplay.name}</h1>
+          <h3>Date of birth: {formatDate(treeToDisplay.dob)}</h3>
+          <h3>{renderLastActionDates()}</h3>
           <img src={`/${treeToDisplay.images}`} />
+          <h3>Notes: {treeToDisplay.notes}</h3>
+
           <Link to={`/editTree/${treeToDisplay.id}`}>Edit</Link>
-          <FertilizeForm
-            datesToDisplay={filteredDates.filter(
-              (date) => date.activity_id === 1
-            )}
-            fertilizeDate={fertilizeDate}
-            setFertilizeDate={setFertilizeDate}
-            submitForm={submitForm}
-          />
+          <br/>
+          <br/>
+          {treeToDisplay.status_id === 1 && (
+            <>
+              <FertilizeForm
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 1)}
+                fertilizeDate={fertilizeDate}
+                setFertilizeDate={setFertilizeDate}
+                submitForm={submitForm}
+              />
 
-          <PruneForm
-            datesToDisplay={filteredDates.filter(
-              (date) => date.activity_id === 2
-            )}
-            pruneDate={pruneDate}
-            setPruneDate={setPruneDate}
-            submitForm={submitForm}
-          />
+              <PruneForm
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 2)}
+                pruneDate={pruneDate}
+                setPruneDate={setPruneDate}
+                submitForm={submitForm}
+              />
 
-          <DecandleForm
-            datesToDisplay={filteredDates.filter(
-              (date) => date.activity_id === 3
-            )}
-            decandleDate={decandleDate}
-            setDecandleDate={setDecandleDate}
-            submitForm={submitForm}
-          />
+              <DecandleForm
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 3)}
+                decandleDate={decandleDate}
+                setDecandleDate={setDecandleDate}
+                submitForm={submitForm}
+              />
 
-          <WireForm
-            datesToDisplay={filteredDates.filter(
-              (date) => date.activity_id === 5
-            )}
-            wireDate={wireDate}
-            setWireDate={setWireDate}
-            submitForm={submitForm}
-          />
+              <WireForm
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 5)}
+                wireDate={wireDate}
+                setWireDate={setWireDate}
+                submitForm={submitForm}
+              />
 
-          <RepotForm
-            datesToDisplay={filteredDates.filter(
-              (date) => date.activity_id === 4
-            )}
-            repotDate={repotDate}
-            setRepotDate={setRepotDate}
-            submitForm={submitForm}
-          />
-
+              <RepotForm
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 4)}
+                repotDate={repotDate}
+                setRepotDate={setRepotDate}
+                submitForm={submitForm}
+              />
+            </>
+          )}
           <br />
 
-          <h4>!!! Alert !!!!</h4>
+          {/* <h4>!!! Alert !!!!</h4>
           <h5>Alert if X is less then amount of time has passed </h5>
           <h5>display how many days have passed</h5>
-          <h4>!!! Remove Wire !!!</h4>
+          <h4>!!! Remove Wire !!!</h4> */}
         </section>
       </div>
     </div>

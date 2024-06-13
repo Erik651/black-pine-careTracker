@@ -2,6 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+const formatDate = (isoString) => {
+  const date = new Date(isoString);
+  return date.toLocaleDateString('en-CA'); // 'en-CA' for YYYY-MM-DD format
+};
+
 function MyTrees() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -31,7 +36,7 @@ function MyTrees() {
             >
               <h3>{tree.name}</h3>
               <img src={`/${tree.images}`} />
-              <h3>{tree.dob}</h3>
+              <h3>Date of birth: {formatDate(tree.dob)}</h3>
             </div>
           );
         })}

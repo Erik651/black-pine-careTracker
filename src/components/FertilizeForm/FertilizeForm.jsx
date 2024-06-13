@@ -6,7 +6,10 @@ const FertilizeForm = ({
   setFertilizeDate,
   submitForm,
 }) => (
-  <form className="fertilizeForm" onSubmit={(event) => submitForm(event, 1, fertilizeDate)}>
+  <form
+    className="fertilizeForm"
+    onSubmit={(event) => submitForm(event, 1, fertilizeDate)}
+  >
     <h1>Care Action Taken</h1>
     <h2>--Fertilize--</h2>
     {datesToDisplay.length > 0 ? (
