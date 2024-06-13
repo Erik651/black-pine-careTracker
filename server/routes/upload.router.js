@@ -1,9 +1,14 @@
 const express = require('express');
 //const pool = require('../modules/pool');
 const router = express.Router();
+//const path = require('path');
 //const multer = require('multer');
 
 module.exports = (upload) => {
+
+// router.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "EditTree.jsx"));
+// });
 
 router.post('/single', upload.single('image'), (req, res) => {
   console.log(req.file);

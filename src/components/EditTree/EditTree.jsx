@@ -45,65 +45,77 @@ function EditTree() {
     console.log(payload, 'submitForm payload');
   };
 
+  const handleFileUpload = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('image', event.target.image.files[0]);
+
+    try {
+      const response = await fetch('/api/upload/single', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.text();
+      console.log(data);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
   if (!statuses || !tree || tree.id !== Number(id)) {
     return <div>Loading...</div>;
   }
-    return (
+  return (
+    <div>
+      <h1>Edit Tree</h1>
+      <h3>{id}</h3>
+      <form onSubmit={submitForm}>
+        <p>
+          Name:
+          <input
+            value={name}
+            placeholder={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </p>
+        <p>
+          DOB:{' '}
+          <input value={dob} onChange={(event) => setDob(event.target.value)} />
+        </p>
 
-      
-      <div>
-        <h1>Edit Tree</h1>
-        <h3>{id}</h3>
-        <form onSubmit={submitForm}>
-          <p>
-            Name:
-            <input
-              value={name}
-              placeholder={name}
-              onChange={(event) => setName(event.target.value)}
+        <p>
+          Notes:{' '}
+          <input
+            value={notes}
+            placeholder={notes}
+            onChange={(event) => setNotes(event.target.value)}
             />
-          </p>
-          <p>
-            DOB:{' '}
-            <input
-              value={dob}
-              onChange={(event) => setDob(event.target.value)}
-            />
-          </p>
+        </p>
+        <select
+          value={selectedStatus}
+          onChange={(event) => setSelectedStatus(event.target.value)}
+          >
+          <option value="" disabled>
+            Change Status
+          </option>
+          {statuses.map((status) => (
+            <option key={status.id} value={status.id}>
+              {status.status_name}
+            </option>
+          ))}
+        </select>
+
+        <input type="submit" value="Save" />
+      </form>
           <p>
             Image:{' '}
-            <input
-              value={images}
-              onChange={(event) => setImages(event.target.value)}
-            />
           </p>
-
-          <p>
-            Notes:{' '}
-            <input
-              value={notes}
-              placeholder={notes}
-              onChange={(event) => setNotes(event.target.value)}
-            />
-          </p>
-          <select
-            value={selectedStatus}
-            onChange={(event) => setSelectedStatus(event.target.value)}
-          >
-            <option value="" disabled>
-              Change Status
-            </option>
-            {statuses.map((status) => (
-              <option key={status.id} value={status.id}>
-                {status.status_name}
-              </option>
-            ))}
-          </select>
-
-          <input type="submit" value="Save" />
-        </form>
-      </div>
-    );
+          <form onSubmit={handleFileUpload} encType="multipart/form-data">
+            <input type="file" name="image" />
+            <button type="submit">Submit</button>
+          </form>
+    </div>
+  );
 }
 
 export default EditTree;
