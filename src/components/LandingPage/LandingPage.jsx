@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import './LandingPage.css';
 
 // CUSTOM COMPONENTS
@@ -8,6 +9,12 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 function LandingPage() {
   const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
+  const images = useSelector((store) => store.images);
+  console.log('images', images);
+  useEffect(() => {
+    console.log('in LandingPage useEffect');
+    dispatchEvent({ type: 'FETCH_IMAGES' });
+  }, []);
 
   const onLogin = (event) => {
     history.push('/login');
@@ -19,6 +26,11 @@ function LandingPage() {
 
       <div className="grid">
         <div className="grid-col grid-col_8">
+          {images.map((image) => {
+            return (
+              <img src={image.image_data}/>
+            )
+          })}
           <p>
             Timing is everything when it comes to developing quality Black Pine
             Bonsai trees. <p>All trees require the same basic steps to create

@@ -1,4 +1,5 @@
 const express = require('express');
+const pool = require('../modules/pool');
 //const pool = require('../modules/pool');
 const router = express.Router();
 //const path = require('path');
@@ -18,6 +19,22 @@ router.post('/single', upload.single('image'), (req, res) => {
 router.post('/multiple', upload.array('images', 3), (req, res) => {
   console.log(req.files);
   res.send('Multiple Files Upload Success');
+});
+
+router.get('/', (req, res) => {
+  const query = `
+  SELECT * FROM "images"
+  ORDER BY "image_data";
+  `;
+  pool
+  .query(query)
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch((error) => {
+    console.log('Error: GET all Images', error);
+    res.sendStatus(500);
+  });
 });
 
 return router;
