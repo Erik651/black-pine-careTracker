@@ -56,6 +56,7 @@ function EditTree() {
         body: formData,
       });
       const data = await response.text();
+      alert("successful image upload")
       console.log(data);
     } catch (error) {
       console.error('Error uploading file:', error);
