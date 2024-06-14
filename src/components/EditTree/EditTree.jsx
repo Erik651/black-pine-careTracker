@@ -48,11 +48,17 @@ function EditTree() {
   const handleFileUpload = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('image', event.target.image.files[0]);
+    const files = event.target.images.files;
+    for (let i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    }
     formData.append('tree_id', id); // Append tree_id to the form data
+    // For single image upload 
+    // formData.append('image', event.target.image.files[0]);
+    // formData.append('tree_id', id); // Append tree_id to the form data
 
     try {
-      const response = await fetch('/api/upload/single', {
+      const response = await fetch('/api/upload/multiple', {
         method: 'POST',
         body: formData,
       });
@@ -113,7 +119,7 @@ function EditTree() {
             Image:{' '}
           </p>
           <form onSubmit={handleFileUpload} encType="multipart/form-data">
-            <input type="file" name="image" />
+            <input type="file" name="images" multiple />
             <button type="submit">Submit</button>
           </form>
     </div>
