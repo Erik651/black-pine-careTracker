@@ -71,14 +71,16 @@ const fs = require('fs');
         });
     });
   
-    router.get('/', (req, res) => {
+    router.get('/:treeId', (req, res) => {
+      const treeId = req.params.treeId;
       const query = `
-        SELECT id, filename, mimetype, tree_id, created_at
-        FROM "images"
-        ORDER BY "created_at" DESC;
+        SELECT id, filename, mimetype, image_data, tree_id, created_at
+    FROM "images"
+    WHERE tree_id = $1
+    ORDER BY "created_at" DESC;
       `;
       pool
-        .query(query)
+        .query(query, [treeId])
         .then((result) => {
           res.send(result.rows);
         })

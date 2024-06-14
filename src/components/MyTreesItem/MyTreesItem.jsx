@@ -12,6 +12,7 @@ function MyTreesItem() {
   const dispatch = useDispatch();
   const treeToDisplay = useSelector((store) => store.selectedTree);
   const datesToDisplay = useSelector((store) => store.tree_activity);
+  const imagesToDisplay = useSelector((store) => store.images) || [];
   const [fertilizeDate, setFertilizeDate] = useState('');
   const [pruneDate, setPruneDate] = useState('');
   const [decandleDate, setDecandleDate] = useState('');
@@ -19,6 +20,7 @@ function MyTreesItem() {
   const [wireDate, setWireDate] = useState('');
   const history = useHistory();
   const { id: treeId } = useParams();
+  console.log(imagesToDisplay.tree_id, 'imagesToDisplay test');
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -26,11 +28,11 @@ function MyTreesItem() {
       // Return a default value or an empty string if the date is invalid
       return 'Invalid Date';
     }
-    
+
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const day = String(date.getUTCDate()).padStart(2, '0');
-    
+
     return `${year}-${month}-${day}`;
   };
 
@@ -38,6 +40,7 @@ function MyTreesItem() {
     console.log('in MyTreesItem useEffect');
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
+    dispatch({ type: 'FETCH_IMAGES', payload: treeId });
     console.log(treeId, 'treeId from dispatch');
   }, [treeId]);
 
@@ -95,6 +98,17 @@ function MyTreesItem() {
     ));
   };
 
+  const arrayBufferToBase64 = (buffer) => {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+  
+
   return (
     <div>
       <h1>{treeId}</h1>
@@ -106,7 +120,21 @@ function MyTreesItem() {
           <h3>{renderLastActionDates()}</h3>
           <img src={`/${treeToDisplay.images}`} />
           <h3>Notes: {treeToDisplay.notes}</h3>
-
+          <h3>Images:</h3>
+          <div>
+            {imagesToDisplay.map((image) => {
+              console.log(image.image_data); // Log the image data to inspect
+              return (
+                <img
+                  key={image.id}
+                  src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
+                  alt={image.filename}
+                  style={{ maxWidth: '200px', margin: '10px' }}
+                />
+              );
+            })}
+          </div>
+          
           <Link to={`/editTree/${treeToDisplay.id}`}>Edit</Link>
           <br />
           <br />
