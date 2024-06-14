@@ -49,6 +49,7 @@ function EditTree() {
     event.preventDefault();
     const formData = new FormData();
     formData.append('image', event.target.image.files[0]);
+    formData.append('tree_id', id); // Append tree_id to the form data
 
     try {
       const response = await fetch('/api/upload/single', {

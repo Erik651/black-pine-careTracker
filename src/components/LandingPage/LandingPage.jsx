@@ -7,14 +7,15 @@ import './LandingPage.css';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 function LandingPage() {
+  const dispatch = useDispatch();
   const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
   const images = useSelector((store) => store.images);
   console.log('images', images);
   useEffect(() => {
     console.log('in LandingPage useEffect');
-    dispatchEvent({ type: 'FETCH_IMAGES' });
-  }, []);
+    dispatch({ type: 'FETCH_IMAGES' });
+  }, [dispatch]);
 
   const onLogin = (event) => {
     history.push('/login');
@@ -26,11 +27,13 @@ function LandingPage() {
 
       <div className="grid">
         <div className="grid-col grid-col_8">
-          {images.map((image) => {
-            return (
-              <img src={image.image_data}/>
-            )
-          })}
+        {/* {images.length > 0 ? (
+            images.map((image) => (
+              <img src={image.image_data} alt="Uploaded" key={image.id} />
+            ))
+          ) : (
+            <p>No images available</p>
+          )} */}
           <p>
             Timing is everything when it comes to developing quality Black Pine
             Bonsai trees. <p>All trees require the same basic steps to create
