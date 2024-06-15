@@ -92,8 +92,9 @@ function MyTreesItem() {
 
     return filteredDates.map((date) => (
       <div key={date.activity_id}>
-        Last {activityTypes[date.activity_id]} Date:{' '}
-        {formatDate(date.date_text)}
+        {/* Last {activityTypes[date.activity_id]} Date:{' '} */}
+        <p>Last {activityTypes[date.activity_id]} Date: {formatDate(date.date_text)}</p>
+        {/* {formatDate(date.date_text)} */}
       </div>
     ));
   };
@@ -125,6 +126,7 @@ function MyTreesItem() {
             {imagesToDisplay.map((image) => {
               console.log(image.image_data); // Log the image data to inspect
               return (
+                
                 <img
                   key={image.id}
                   src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
