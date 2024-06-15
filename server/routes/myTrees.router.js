@@ -39,65 +39,60 @@ router.get('/:id', (req, res) => {
 /**
  * POST route template
  */
+
 router.post('/', (req, res) => {
-  console.log(req.body);
-
-  const insertAddTreeQuery = `
-  INSERT INTO "trees"
-  ("name", "dob", "images", "notes")
-  VALUES
-  ($1, $2, $3, $4)
-  RETURNING "id";
+  const { name, dob, notes, status_id, user_id } = req.body;
+  const queryText = `
+    INSERT INTO trees (name, dob, notes, status_id, user_id)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING id, name, dob, notes, status_id, user_id;
   `;
-  const insertAddTreeValues = [
-    req.body.name,
-    req.body.dob,
-    req.body.images,
-    req.body.notes,
-  ];
 
-  pool
-    .query(insertAddTreeQuery, insertAddTreeValues)
-    .then((result) => {
-      console.log('New Tree ID:', result.rows[0].id);
-      //const createdAddedTreeId = results.rows[0].id;
-      res.sendStatus(201);
+  pool.query(queryText, [name, dob, notes, status_id, user_id])
+    .then(result => {
+      res.status(201).json(result.rows[0]); // Return the created tree as JSON
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(error => {
+      console.error('Error creating new tree:', error);
       res.sendStatus(500);
     });
 });
 
-router.put('/:id', (req, res) => {
-  const queryText = `UPDATE "trees"
-  SET "name" = $1, "dob" = $2, "images" = $3, "notes" = $6, "status_id" = $7
-  WHERE "id" = $4 AND "user_id" = $5;
-  `;
 
-  const queryValues = [
-    req.body.name,
-    req.body.dob,
-    req.body.images,
-    req.params.id,
-    req.user.id,
-    req.body.notes,
-    req.body.status_id,
-  ];
+// router.post('/', (req, res) => {
+//   const { name, dob, notes, status_id, user_id } = req.body;
+//   const queryText = `
+//     INSERT INTO trees (name, dob, notes, status_id, user_id)
+//     VALUES ($1, $2, $3)
+//     RETURNING id, name, dob, notes, status_id, user_id;
+//   `;
 
-  console.log('Executing query:', queryText);
-  console.log('With values:', queryValues);
-
-  pool
-    .query(queryText, queryValues)
-    .then((result) => {
-      res.sendStatus(200);
-    })
-    .catch((error) => {
-      console.log('Error executing query:', error.message);
-      console.log('ERROR details:', error);
-      res.sendStatus(500);
-    });
-});
+//   pool.query(queryText, [name, dob, notes, status_id, user_id])
+//     .then(result => {
+//       res.status(201).json(result.rows[0]); // Return the created tree as JSON
+//     })
+//     .catch(error => {
+//       console.error('Error creating new tree:', error);
+//       res.sendStatus(500);
+//     });
+// });
 
 module.exports = router;
+
+// router.post('/', (req, res) => {
+//   const { name, dob, notes, status_id, user_id } = req.body;
+//   const queryText = `
+//     INSERT INTO trees (name, dob, notes, status_id, user_id)
+//     VALUES ($1, $2, $3, $4, $5)
+//     RETURNING id, name, dob, notes, status_id, user_id;
+//   `;
+
+//   pool.query(queryText, [name, dob, notes, status_id, user_id])
+//     .then(result => {
+//       res.status(201).json(result.rows[0]); // Return the created tree as JSON
+//     })
+//     .catch(error => {
+//       console.error('Error creating new tree:', error);
+//       res.status(500).json({ error: 'Failed to create new tree' });
+//     });
+// });

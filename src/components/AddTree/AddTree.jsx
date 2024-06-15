@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 // import RepotForm from '../RepotForm/RepotForm';
 
 function AddTree() {
+  const user = useSelector((store) => store.user)
   const statuses = useSelector((store) => store.statuses);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -22,49 +23,82 @@ function AddTree() {
   const [wireDate, setWireDate] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [notes, setNotes] = useState('');
+  // const { id } = useParams();
 
   useEffect(() => {
     // Fetch the tree details to pre-fill the form if needed
     // dispatch({ type: 'FETCH_TREE_DETAILS', payload: id });
     dispatch({ type: 'FETCH_ALL_STATUSES' });
+    // dispatch({ type: 'SET_USER', payload: user_id})
   }, [dispatch]);
 
-  const submitForm = (event) => {
-    event.preventDefault();
-    const payload = { name, dob, image };
+  const handleFileUpload = async (treeId) => {
+    const formData = new FormData();
+    if (image) {
+      formData.append('images', image);
+      formData.append('tree_id', treeId); // Append tree_id to the form data
 
-    dispatch({ type: 'ADD_TREE', payload: { name, dob, image}, history});
-    dispatch({
-      type: 'UPDATE_ACTIVITY_DATE',
-      payload,
-      // history,
-    });
-
-    history.push('/myTrees');
+      try {
+        const uploadResponse = await fetch('/api/upload/multiple', {
+          method: 'POST',
+          body: formData,
+        });
+        const uploadData = await uploadResponse.text();
+        console.log("Image upload response:", uploadData);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
   };
+
+  const submitForm = async (event) => {
+    event.preventDefault();
+    const payload = {
+      name,
+      dob,
+      notes,
+      status_id: selectedStatus,
+      user_id: user.id, // Include only user ID in the payload
+    };
+
+    try {
+      const response = await fetch('/api/trees', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create new tree');
+      }
+
+      const newTree = await response.json();
+      const treeId = newTree.id;
+
+      await handleFileUpload(treeId);
+
+      dispatch({ type: 'ADD_TREE', payload: { ...payload, id: treeId }, history });
+      history.push('/myTrees');
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
+  };
+
+
 
   
   return (
     <div>
       <h1>Add Tree</h1>
       <form onSubmit={submitForm}>
-        <p>Name: <input value={name} onChange={(event) => setName(event.target.value)}/></p>
-        <p>D.O.B <input value={dob} onChange={(event) => setDob(event.target.value)}/></p>
-        <p>Image <input value={image} onChange={(event) => setImage(event.target.value)}/></p>
-        <div>
-        <h4>No previous fertilize dates available.</h4>
-        <h4>Enter new date of Fertilizing</h4>
-        <input
-          type="date"
-          value={fertilizeDate}
-          onChange={(event) => setFertilizeDate(event.target.value)}
-        />
-        {/* <button type="submit">Submit</button> */}
-      </div>
-      <select
+        <p>Name: <input value={name} onChange={(event) => setName(event.target.value)} /></p>
+        <p>D.O.B <input value={dob} onChange={(event) => setDob(event.target.value)} /></p>
+        <select
           value={selectedStatus}
           onChange={(event) => setSelectedStatus(event.target.value)}
-          >
+        >
           <option value="" disabled>
             Change Status
           </option>
@@ -74,15 +108,22 @@ function AddTree() {
             </option>
           ))}
         </select>
-          
-          <br />
-
-        
-        <p>Add input dates of fertilize, prune, wire, repot, decandle</p>
-        <input type="submit" />
+        <div>
+          <h4>No previous fertilize dates available.</h4>
+          <h4>Enter new date of Fertilizing</h4>
+          <input
+            type="date"
+            value={fertilizeDate}
+            onChange={(event) => setFertilizeDate(event.target.value)}
+          />
+        </div>
+        <p>Notes: <textarea value={notes} onChange={(event) => setNotes(event.target.value)} /></p>
+        <p>Image:</p>
+        <input type="file" name="images" multiple onChange={(event) => setImage(event.target.files[0])} />
+        <input type="submit" value="Save" />
       </form>
     </div>
-  )
+  );
 }
 
 export default AddTree;

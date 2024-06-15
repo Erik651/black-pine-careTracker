@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const multer = require('multer');
 require('dotenv').config();
 const PORT = process.env.PORT || 5001;
@@ -24,10 +25,12 @@ const statusesRouter = require('./routes/status.router');
 const tree_activityRouter = require('./routes/tree_activity.router');
 const uploadRouter = require('./routes/upload.router')(upload);
 
+
 // Express Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
+app.use(bodyParser.json());
 
 // Passport Session Configuration
 app.use(sessionMiddleware);
