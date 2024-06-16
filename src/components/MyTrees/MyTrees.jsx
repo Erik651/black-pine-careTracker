@@ -14,11 +14,12 @@ function MyTrees() {
   const imagesToDisplay = useSelector((store) => store.allImages) || [];
   const trees = useSelector((store) => store.trees);
   console.log('trees', trees);
+  
   useEffect(() => {
     console.log('in useEffect');
     dispatch({ type: 'FETCH_TREES' });
-    dispatch({ type: 'FETCH_ALL_IMAGES'  });
-  }, []);
+    dispatch({ type: 'FETCH_ALL_IMAGES' });
+  }, [dispatch]);
 
   const displayTreeItem = (treeToDisplay) => {
     console.log(treeToDisplay);
@@ -38,33 +39,29 @@ function MyTrees() {
   return (
     <main>
       <h1>My Trees</h1>
-      <p>{trees.name}</p>
       <section className="myTrees">
         {trees
           .filter((tree) => tree.status_id === 1)
           .map((tree) => {
+            // Filter images that match the current tree.id
+            const filteredImages = imagesToDisplay.filter(image => image.tree_id === tree.id);
             return (
               <div
-                onClick={(event) => displayTreeItem(tree.id)}
+                onClick={() => displayTreeItem(tree.id)}
                 id={tree.id}
                 key={tree.id}
               >
                 <h3>{tree.name}</h3>
-                {/* <img src={`/${tree.images}`} /> */}
                 <div>
-            {imagesToDisplay.map((image) => {
-              console.log(image.image_data); // Log the image data to inspect
-              return (
-                
-                <img
-                  key={image.id}
-                  src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
-                  alt={image.filename}
-                  style={{ maxWidth: '200px', margin: '10px' }}
-                />
-              );
-            })}
-          </div>
+                  {filteredImages.map((image) => (
+                    <img
+                      key={image.id}
+                      src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
+                      alt={image.filename}
+                      style={{ maxWidth: '200px', margin: '10px' }}
+                    />
+                  ))}
+                </div>
                 <h3>Date of birth: {formatDate(tree.dob)}</h3>
               </div>
             );

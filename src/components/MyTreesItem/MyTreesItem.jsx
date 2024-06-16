@@ -119,7 +119,7 @@ function MyTreesItem() {
           <h1>Name: {treeToDisplay.name}</h1>
           <h3>Date of birth: {formatDate(treeToDisplay.dob)}</h3>
           <h3>{renderLastActionDates()}</h3>
-          <img src={`/${treeToDisplay.images}`} />
+          {/* <img src={`/${treeToDisplay.images}`} /> */}
           <h3>Notes: {treeToDisplay.notes}</h3>
           <h3>Images:</h3>
           <div>

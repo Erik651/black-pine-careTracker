@@ -36,6 +36,7 @@ function EditTree() {
 
   const submitForm = (event) => {
     event.preventDefault();
+    // add 'ADD_IMAGES' dispatch
     const payload = { name, dob, images, notes, status_id: selectedStatus, id };
     dispatch({
       type: 'EDIT_TREE',

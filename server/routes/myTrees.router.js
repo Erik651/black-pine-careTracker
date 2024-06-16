@@ -58,6 +58,22 @@ router.post('/', (req, res) => {
     });
 });
 
+router.put('/:id', (req, res) => {
+  const { name, dob, notes, status_id } = req.body;
+  const queryText = `
+    UPDATE trees
+    SET name = $1, dob = $2, notes = $3, status_id = $4
+    WHERE id = $5
+  `;
+  const queryValues = [name, dob, notes, status_id, req.params.id];
+  
+  pool.query(queryText, queryValues)
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      console.error('Error updating tree:', error);
+      res.sendStatus(500);
+    });
+});
 
 // router.post('/', (req, res) => {
 //   const { name, dob, notes, status_id, user_id } = req.body;
