@@ -43,6 +43,7 @@ function EditTree() {
       payload: { name, dob, images, notes, status_id: selectedStatus, id },
       history,
     });
+    
     console.log(payload, 'submitForm payload');
   };
 
@@ -66,6 +67,7 @@ function EditTree() {
       const data = await response.text();
       alert("successful image upload")
       console.log(data);
+      history.push(`/myTreesItem/${id}`);
     } catch (error) {
       console.error('Error uploading file:', error);
     }
