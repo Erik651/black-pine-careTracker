@@ -24,22 +24,22 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* fetchAllImages(action) {
+function* fetchAllImagesById(action) {
   try {
     const response = yield axios.get(`/api/upload/${action.payload}`);
     console.log(action.payload);
-    console.log('fetchAllImages response', response.data);
+    console.log('fetchAllImagesById response', response.data);
     yield put({
-      type: 'SET_IMAGES',
+      type: 'SET_IMAGES_BY_ID',
       payload: response.data,
     });
   } catch (error) {
-    console.log('fetchAllImages', error);
+    console.log('fetchAllImagesById', error);
   }
 }
 
 function* imagesSaga() {
-  yield takeLatest('FETCH_IMAGES', fetchAllImages);
+  yield takeLatest('FETCH_IMAGES_BY_ID', fetchAllImagesById);
 }
 
 export default imagesSaga;

@@ -40,7 +40,7 @@ function MyTreesItem() {
     console.log('in MyTreesItem useEffect');
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
-    dispatch({ type: 'FETCH_IMAGES', payload: treeId });
+    dispatch({ type: 'FETCH_IMAGES_BY_ID', payload: treeId });
     console.log(treeId, 'treeId from dispatch');
   }, [treeId]);
 

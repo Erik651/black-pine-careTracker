@@ -72,12 +72,12 @@ const fs = require('fs');
     });
 
     router.get('/', (req, res) => {
-      const queryText = `
-        SELECT * FROM "trees"
-        ORDER BY "name";
+      const query = `
+        SELECT * FROM "images"
+        ORDER BY "tree_id";
       `;
     
-      pool.query(queryText)
+      pool.query(query)
         .then((result) => {
           res.send(result.rows);
         })
