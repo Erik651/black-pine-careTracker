@@ -75,6 +75,28 @@ router.put('/:id', (req, res) => {
     });
 });
 
+router.delete('/:id', async (req, res) => {
+  const treeId = req.params.id;
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const deleteImagesQuery = 'DELETE FROM images WHERE tree_id = $1';
+    await client.query(deleteImagesQuery, [treeId]);
+    
+    const deleteTreeQuery = 'DELETE FROM trees WHERE id = $1';
+    await client.query(deleteTreeQuery, [treeId]);
+
+    await client.query('COMMIT');
+    res.sendStatus(204);
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('Error deleting tree and images:', error);
+    res.sendStatus(500);
+  } finally {
+    client.release();
+  }
+});
+
 // router.post('/', (req, res) => {
 //   const { name, dob, notes, status_id, user_id } = req.body;
 //   const queryText = `

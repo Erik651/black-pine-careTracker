@@ -12,7 +12,8 @@ import updateDateSaga from './updateDate.saga';
 import imagesByIdSaga from './images.saga';
 import allImagesSaga from './allImages.saga';
 import addImagesSaga from './addImages.saga';
-
+import deleteTreeSaga from './deleteTree.saga'
+import fetchSingleImagesSaga from './singleTreeImage.saga';
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -35,5 +36,7 @@ export default function* rootSaga() {
     imagesByIdSaga(),
     allImagesSaga(),
     addImagesSaga(),
+    deleteTreeSaga(),
+    fetchSingleImagesSaga(),
   ]);
 }

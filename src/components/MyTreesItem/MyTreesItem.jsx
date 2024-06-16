@@ -55,6 +55,14 @@ function MyTreesItem() {
     console.log(payload, 'submitForm UPDATE_ACTIVITY_DATE payload');
   };
 
+  const handleDelete = () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this tree?');
+    if (confirmDelete) {
+      dispatch({ type: 'DELETE_TREE', payload: treeId, history });
+    }
+  };
+
+
   console.log('datesToDisplay', datesToDisplay);
   if (!treeToDisplay) {
     return <div>Loading...</div>;
@@ -138,6 +146,11 @@ function MyTreesItem() {
           </div>
           
           <Link to={`/editTree/${treeToDisplay.id}`}>Edit</Link>
+          <br />
+          <br />
+          <br />
+          <button onClick={handleDelete}>Delete</button>
+          <br />
           <br />
           <br />
           {treeToDisplay.status_id === 1 && (
