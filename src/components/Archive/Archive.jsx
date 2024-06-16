@@ -11,6 +11,7 @@ function Archive() {
   const dispatch = useDispatch();
   const history = useHistory();
   const trees = useSelector((store) => store.trees);
+  const imagesToDisplay = useSelector((store) => store.images) || [];
   console.log('trees', trees);
   useEffect(() => {
     console.log('in useEffect');
@@ -20,6 +21,28 @@ function Archive() {
   const displayTreeItem = (treeToDisplay) => {
     console.log(treeToDisplay);
     history.push(`/myTreesItem/${treeToDisplay}`);
+  };
+
+  const arrayBufferToBase64 = (buffer) => {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+  const renderImagesForTree = (treeId) => {
+    return imagesToDisplay
+      .filter((image) => image.tree_id === treeId)
+      .map((image) => (
+        <img
+          key={image.id}
+          src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
+          alt={image.filename}
+          style={{ maxWidth: '200px', margin: '10px' }}
+        />
+      ));
   };
 
   return (
@@ -34,7 +57,7 @@ function Archive() {
               key={tree.id}
             >
               <h3>{tree.name}</h3>
-              <img src={`/${tree.images}`} />
+              <div>{renderImagesForTree(tree.id)}</div>
               <h3>{formatDate(tree.dob)}</h3>
               <p>{tree.notes}</p>
             </div>
@@ -52,7 +75,7 @@ function Archive() {
               key={tree.id}
             >
               <h3>{tree.name}</h3>
-              <img src={`/${tree.images}`} />
+              <div>{renderImagesForTree(tree.id)}</div>
               <h3>{formatDate(tree.dob)}</h3>
               <p>{tree.notes}</p>
             </div>
@@ -70,7 +93,7 @@ function Archive() {
               key={tree.id}
             >
               <h3>{tree.name}</h3>
-              <img src={`/${tree.images}`} />
+              <div>{renderImagesForTree(tree.id)}</div>
               <h3>{formatDate(tree.dob)}</h3>
               <p>{tree.notes}</p>
             </div>

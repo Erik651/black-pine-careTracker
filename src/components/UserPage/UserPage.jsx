@@ -1,6 +1,7 @@
 import React from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector} from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -14,6 +15,9 @@ function UserPage() {
       <button>Add Tree</button>
       <button>Archive</button>
       <button>Links</button>
+      <Link className="navLink" to="/addTree">
+              Add New Tree
+            </Link>
     </div>
   );
 }
