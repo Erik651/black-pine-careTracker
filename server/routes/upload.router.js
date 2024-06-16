@@ -70,6 +70,22 @@ const fs = require('fs');
           res.sendStatus(500);
         });
     });
+
+    router.get('/', (req, res) => {
+      const queryText = `
+        SELECT * FROM "trees"
+        ORDER BY "name";
+      `;
+    
+      pool.query(queryText)
+        .then((result) => {
+          res.send(result.rows);
+        })
+        .catch((error) => {
+          console.error('Error fetching all trees:', error);
+          res.sendStatus(500);
+        });
+    });
   
     router.get('/:treeId', (req, res) => {
       const treeId = req.params.treeId;
