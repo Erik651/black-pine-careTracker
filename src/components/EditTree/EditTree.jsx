@@ -73,11 +73,16 @@ function EditTree() {
     }
   };
 
+  const goBack = () => {
+    history.goBack();
+  };
+
   if (!statuses || !tree || tree.id !== Number(id)) {
     return <div>Loading...</div>;
   }
   return (
     <div>
+      <button onClick={goBack}>Back</button>
       <h1>Edit Tree</h1>
       <h3>{id}</h3>
       <form onSubmit={submitForm}>
