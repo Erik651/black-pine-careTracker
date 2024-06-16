@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -11,15 +11,22 @@ function Archive() {
   const dispatch = useDispatch();
   const history = useHistory();
   const trees = useSelector((store) => store.trees);
-  const imagesToDisplay = useSelector((store) => store.images) || [];
-  console.log('trees', trees);
+  const imagesToDisplay = useSelector((store) => store.allImages) || [];
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    console.log('in useEffect');
-    dispatch({ type: 'FETCH_TREES' });
-  }, []);
+    const fetchData = async () => {
+      await Promise.all([
+        dispatch({ type: 'FETCH_TREES' }),
+        dispatch({ type: 'FETCH_ALL_IMAGES' })
+      ]);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   const displayTreeItem = (treeToDisplay) => {
-    console.log(treeToDisplay);
     history.push(`/myTreesItem/${treeToDisplay}`);
   };
 
@@ -32,6 +39,7 @@ function Archive() {
     }
     return window.btoa(binary);
   };
+
   const renderImagesForTree = (treeId) => {
     return imagesToDisplay
       .filter((image) => image.tree_id === treeId)
@@ -45,60 +53,58 @@ function Archive() {
       ));
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <main>
       <h1>SOLD</h1>
       <section className="archiveSold">
-        {trees.filter(tree => tree.status_id === 2).map((tree) => {
-          return (
-            <div
-              onClick={(event) => displayTreeItem(tree.id)}
-              id={tree.id}
-              key={tree.id}
-            >
-              <h3>{tree.name}</h3>
-              <div>{renderImagesForTree(tree.id)}</div>
-              <h3>{formatDate(tree.dob)}</h3>
-              <p>{tree.notes}</p>
-            </div>
-          );
-        })}
+        {trees.filter(tree => tree.status_id === 2).map((tree) => (
+          <div
+            onClick={() => displayTreeItem(tree.id)}
+            id={tree.id}
+            key={tree.id}
+          >
+            <h3>{tree.name}</h3>
+            <div>{renderImagesForTree(tree.id)}</div>
+            <h3>{formatDate(tree.dob)}</h3>
+            <p>{tree.notes}</p>
+          </div>
+        ))}
       </section>
 
-<h1>R.I.P.</h1>
+      <h1>R.I.P.</h1>
       <section className="archiveRip">
-        {trees.filter(tree => tree.status_id === 4).map((tree) => {
-          return (
-            <div
-              onClick={(event) => displayTreeItem(tree.id)}
-              id={tree.id}
-              key={tree.id}
-            >
-              <h3>{tree.name}</h3>
-              <div>{renderImagesForTree(tree.id)}</div>
-              <h3>{formatDate(tree.dob)}</h3>
-              <p>{tree.notes}</p>
-            </div>
-          );
-        })}
+        {trees.filter(tree => tree.status_id === 4).map((tree) => (
+          <div
+            onClick={() => displayTreeItem(tree.id)}
+            id={tree.id}
+            key={tree.id}
+          >
+            <h3>{tree.name}</h3>
+            <div>{renderImagesForTree(tree.id)}</div>
+            <h3>{formatDate(tree.dob)}</h3>
+            <p>{tree.notes}</p>
+          </div>
+        ))}
       </section>
 
-<h1>Gifted</h1>
+      <h1>Gifted</h1>
       <section className="archiveGifted">
-        {trees.filter(tree => tree.status_id === 3).map((tree) => {
-          return (
-            <div
-              onClick={(event) => displayTreeItem(tree.id)}
-              id={tree.id}
-              key={tree.id}
-            >
-              <h3>{tree.name}</h3>
-              <div>{renderImagesForTree(tree.id)}</div>
-              <h3>{formatDate(tree.dob)}</h3>
-              <p>{tree.notes}</p>
-            </div>
-          );
-        })}
+        {trees.filter(tree => tree.status_id === 3).map((tree) => (
+          <div
+            onClick={() => displayTreeItem(tree.id)}
+            id={tree.id}
+            key={tree.id}
+          >
+            <h3>{tree.name}</h3>
+            <div>{renderImagesForTree(tree.id)}</div>
+            <h3>{formatDate(tree.dob)}</h3>
+            <p>{tree.notes}</p>
+          </div>
+        ))}
       </section>
     </main>
   );
