@@ -49,7 +49,7 @@ function Nav() {
             </Link>
 
             <Link className="navLink" to="/links">
-              Links
+              Resources
             </Link>
 
             <LogOutButton className="navLink" />
