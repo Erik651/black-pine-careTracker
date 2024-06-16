@@ -11,13 +11,13 @@ const formatDate = (isoString) => {
 function MyTrees() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const imagesToDisplay = useSelector((store) => store.images) || [];
+  const imagesToDisplay = useSelector((store) => store.allImages) || [];
   const trees = useSelector((store) => store.trees);
   console.log('trees', trees);
   useEffect(() => {
     console.log('in useEffect');
     dispatch({ type: 'FETCH_TREES' });
-    dispatch({ type: 'FETCH_IMAGES'  });
+    dispatch({ type: 'FETCH_ALL_IMAGES'  });
   }, []);
 
   const displayTreeItem = (treeToDisplay) => {

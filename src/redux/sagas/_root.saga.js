@@ -10,7 +10,7 @@ import fetchAllStatusesSaga from './statuses.saga';
 import tree_ActivitySaga from './tree_activity.saga';
 import updateDateSaga from './updateDate.saga';
 import imagesByIdSaga from './images.saga';
-import imagesSaga from './allImages.saga';
+import allImagesSaga from './allImages.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -32,6 +32,6 @@ export default function* rootSaga() {
     tree_ActivitySaga(),
     updateDateSaga(),
     imagesByIdSaga(),
-    imagesSaga(),
+    allImagesSaga(),
   ]);
 }
