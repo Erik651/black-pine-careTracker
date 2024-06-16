@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './MyTrees.css';
@@ -8,25 +8,8 @@ const formatDate = (isoString) => {
   return date.toLocaleDateString('en-CA'); // 'en-CA' for YYYY-MM-DD format
 };
 
-function MyTrees() {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const imagesToDisplay = useSelector((store) => store.allImages) || [];
-  const trees = useSelector((store) => store.trees);
-  console.log('trees', trees);
-  
-  useEffect(() => {
-    console.log('in useEffect');
-    dispatch({ type: 'FETCH_TREES' });
-    dispatch({ type: 'FETCH_ALL_IMAGES' });
-  }, [dispatch]);
-
-  const displayTreeItem = (treeToDisplay) => {
-    console.log(treeToDisplay);
-    history.push(`/myTreesItem/${treeToDisplay}`);
-  };
-
-  const arrayBufferToBase64 = (buffer) => {
+const ImageList = React.memo(({ images }) => {
+  const arrayBufferToBase64 = useCallback((buffer) => {
     let binary = '';
     const bytes = new Uint8Array(buffer);
     const len = bytes.byteLength;
@@ -34,7 +17,39 @@ function MyTrees() {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
-  };
+  }, []);
+
+  return (
+    <div>
+      {images.map((image) => (
+        <img
+          key={image.id}
+          src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
+          alt={image.filename}
+          style={{ maxWidth: '200px', margin: '10px' }}
+        />
+      ))}
+    </div>
+  );
+});
+
+function MyTrees() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const imagesToDisplay = useSelector((store) => store.allImages) || [];
+  const trees = useSelector((store) => store.trees);
+  console.log('trees', trees);
+
+  useEffect(() => {
+    console.log('in useEffect');
+    dispatch({ type: 'FETCH_TREES' });
+    dispatch({ type: 'FETCH_ALL_IMAGES' });
+  }, [dispatch]);
+
+  const displayTreeItem = useCallback((treeToDisplay) => {
+    console.log(treeToDisplay);
+    history.push(`/myTreesItem/${treeToDisplay}`);
+  }, [history]);
 
   return (
     <main>
@@ -52,16 +67,7 @@ function MyTrees() {
                 key={tree.id}
               >
                 <h3>{tree.name}</h3>
-                <div>
-                  {filteredImages.map((image) => (
-                    <img
-                      key={image.id}
-                      src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
-                      alt={image.filename}
-                      style={{ maxWidth: '200px', margin: '10px' }}
-                    />
-                  ))}
-                </div>
+                <ImageList images={filteredImages} />
                 <h3>Date of birth: {formatDate(tree.dob)}</h3>
               </div>
             );
