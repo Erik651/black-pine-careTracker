@@ -20,19 +20,16 @@ function MyTreesItem() {
   const [wireDate, setWireDate] = useState('');
   const history = useHistory();
   const { id: treeId } = useParams();
-  console.log(imagesToDisplay.tree_id, 'imagesToDisplay test');
+  console.log('imagesToDisplay.tree_id', imagesToDisplay.tree_id);
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     if (isNaN(date.getTime())) {
-      // Return a default value or an empty string if the date is invalid
       return 'Invalid Date';
     }
-
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const day = String(date.getUTCDate()).padStart(2, '0');
-
     return `${year}-${month}-${day}`;
   };
 
@@ -41,8 +38,8 @@ function MyTreesItem() {
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
     dispatch({ type: 'FETCH_IMAGES_BY_ID', payload: treeId });
-    console.log(treeId, 'treeId from dispatch');
-  }, [treeId]);
+    console.log('treeId from dispatch', treeId);
+  }, [dispatch, treeId]);
 
   const submitForm = (event, activityId, date) => {
     event.preventDefault();
@@ -52,7 +49,7 @@ function MyTreesItem() {
       payload,
       history,
     });
-    console.log(payload, 'submitForm UPDATE_ACTIVITY_DATE payload');
+    console.log('submitForm UPDATE_ACTIVITY_DATE payload', payload);
   };
 
   const handleDelete = () => {
@@ -62,32 +59,22 @@ function MyTreesItem() {
     }
   };
 
-
   console.log('datesToDisplay', datesToDisplay);
   if (!treeToDisplay) {
     return <div>Loading...</div>;
   }
 
   const normalizedTreeId = parseInt(treeId, 10);
-
-  // Log the treeId to ensure it's being correctly retrieved and its type
   console.log('treeId:', treeId, typeof treeId);
   console.log('normalizedTreeId:', normalizedTreeId, typeof normalizedTreeId);
 
-  // Apply filter and log intermediate results
   const filteredDates = datesToDisplay.filter((date) => {
     const isMatch = date.tree_id === normalizedTreeId;
-    console.log(
-      'date.tree_id:',
-      date.tree_id,
-      typeof date.tree_id,
-      'isMatch:',
-      isMatch
-    );
+    console.log('date.tree_id:', date.tree_id, typeof date.tree_id, 'isMatch:', isMatch);
     return isMatch;
   });
 
-  console.log(filteredDates, 'filtered Dates');
+  console.log('filteredDates', filteredDates);
 
   const renderLastActionDates = () => {
     const activityTypes = {
@@ -100,9 +87,7 @@ function MyTreesItem() {
 
     return filteredDates.map((date) => (
       <div key={date.activity_id}>
-        {/* Last {activityTypes[date.activity_id]} Date:{' '} */}
         <p>Last {activityTypes[date.activity_id]} Date: {formatDate(date.date_text)}</p>
-        {/* {formatDate(date.date_text)} */}
       </div>
     ));
   };
@@ -116,25 +101,21 @@ function MyTreesItem() {
     }
     return window.btoa(binary);
   };
-  
 
   return (
     <div>
       <h1>{treeId}</h1>
       <div>
-        {/* <h3>{tree.name}</h3> */}
         <section className="myTreesItem">
           <h1>Name: {treeToDisplay.name}</h1>
           <h3>Date of birth: {formatDate(treeToDisplay.dob)}</h3>
           <h3>{renderLastActionDates()}</h3>
-          {/* <img src={`/${treeToDisplay.images}`} /> */}
           <h3>Notes: {treeToDisplay.notes}</h3>
           <h3>Images:</h3>
           <div>
             {imagesToDisplay.map((image) => {
-              console.log(image.image_data); // Log the image data to inspect
+              console.log('image.image_data', image.image_data);
               return (
-                
                 <img
                   key={image.id}
                   src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
@@ -144,69 +125,46 @@ function MyTreesItem() {
               );
             })}
           </div>
-          
           <Link to={`/editTree/${treeToDisplay.id}`}>Edit</Link>
-          <br />
           <br />
           <br />
           <button onClick={handleDelete}>Delete</button>
           <br />
           <br />
-          <br />
           {treeToDisplay.status_id === 1 && (
             <>
               <FertilizeForm
-                datesToDisplay={filteredDates.filter(
-                  (date) => date.activity_id === 1
-                )}
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 1)}
                 fertilizeDate={fertilizeDate}
                 setFertilizeDate={setFertilizeDate}
                 submitForm={submitForm}
               />
-
               <PruneForm
-                datesToDisplay={filteredDates.filter(
-                  (date) => date.activity_id === 2
-                )}
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 2)}
                 pruneDate={pruneDate}
                 setPruneDate={setPruneDate}
                 submitForm={submitForm}
               />
-
               <DecandleForm
-                datesToDisplay={filteredDates.filter(
-                  (date) => date.activity_id === 3
-                )}
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 3)}
                 decandleDate={decandleDate}
                 setDecandleDate={setDecandleDate}
                 submitForm={submitForm}
               />
-
               <WireForm
-                datesToDisplay={filteredDates.filter(
-                  (date) => date.activity_id === 5
-                )}
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 5)}
                 wireDate={wireDate}
                 setWireDate={setWireDate}
                 submitForm={submitForm}
               />
-
               <RepotForm
-                datesToDisplay={filteredDates.filter(
-                  (date) => date.activity_id === 4
-                )}
+                datesToDisplay={filteredDates.filter((date) => date.activity_id === 4)}
                 repotDate={repotDate}
                 setRepotDate={setRepotDate}
                 submitForm={submitForm}
               />
             </>
           )}
-          <br />
-
-          {/* <h4>!!! Alert !!!!</h4>
-          <h5>Alert if X is less then amount of time has passed </h5>
-          <h5>display how many days have passed</h5>
-          <h4>!!! Remove Wire !!!</h4> */}
         </section>
       </div>
     </div>

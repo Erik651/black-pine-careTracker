@@ -14,6 +14,7 @@ import allImagesSaga from './allImages.saga';
 import addImagesSaga from './addImages.saga';
 import deleteTreeSaga from './deleteTree.saga'
 import singleImagesSaga from './singleTreeImages.saga';
+import addInitialTree_activitySaga from './initialTree_activity.saga';
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -38,5 +39,6 @@ export default function* rootSaga() {
     addImagesSaga(),
     deleteTreeSaga(),
     singleImagesSaga(),
+    addInitialTree_activitySaga(),
   ]);
 }
