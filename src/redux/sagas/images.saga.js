@@ -38,8 +38,8 @@ function* fetchAllImagesById(action) {
   }
 }
 
-function* imagesSaga() {
+function* imagesByIdSaga() {
   yield takeLatest('FETCH_IMAGES_BY_ID', fetchAllImagesById);
 }
 
-export default imagesSaga;
+export default imagesByIdSaga;
