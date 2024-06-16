@@ -15,8 +15,8 @@ function* fetchSingleImages(action) {
   }
 }
 
-function* fetchSingleImagesSaga() {
+function* singleImagesSaga() {
   yield takeLatest('FETCH_SINGLE_IMAGES', fetchSingleImages);
 }
 
-export default fetchSingleImagesSaga;
+export default singleImagesSaga;
