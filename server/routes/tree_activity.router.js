@@ -47,7 +47,53 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.post('/')
+// router.post('/', (req, res) => {
+//   const client = await pool.connect();
+//   const { treeId, activity_id, date_text } = req.body; // Expect initialDates to be an array of { activity_id, date_text }
+
+//   try {
+//     await client.query('BEGIN');
+
+//     const insertActivityQuery = `
+//       INSERT INTO "tree_activity" ("tree_id", "activity_id", "date_text")
+//       VALUES ($1, $2, $3);
+//     `;
+
+//     for (let activity of initialDates) {
+//       await client.query(insertActivityQuery, [treeId, activity.activity_id, activity.date_text]);
+//     }
+
+//     await client.query('COMMIT');
+//     res.sendStatus(201);
+//   } catch (error) {
+//     await client.query('ROLLBACK');
+//     console.log('Error in POST route:', error.message);
+//     res.sendStatus(500);
+//   } finally {
+//     client.release();
+//   }
+// });
+
+router.post('/:id', (req, res) => {
+ const { activity_id, date_text } = req.body; 
+ const treeId = req.params.id;
+  const queryText = `
+    INSERT INTO "tree_activity" ("tree_id", "activity_id", "date_text")
+    VALUES ($1, $2, $3)
+    RETURNING *;
+  `;
+
+  pool.query(queryText, [treeId, activity_id, date_text])
+    .then(result => {
+      res.status(201).json(result.rows[0]); // Return the created tree as JSON
+    })
+    .catch(error => {
+      console.error('Error post tree_activity:', error);
+      res.sendStatus(500);
+    });
+});
+
+
 
 // add Post route for add new tree and set initial care dates
 

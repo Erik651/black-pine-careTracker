@@ -26,6 +26,7 @@ import Links from '../Links/Links';
 import EditTree from '../EditTree/EditTree';
 import MyTreesItem from '../MyTreesItem/MyTreesItem';
 import './App.css';
+import CareActionForm from '../CareActionForm/CareActionForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -79,6 +80,10 @@ function App() {
 
           <ProtectedRoute exact path="/editTree/:id">
             <EditTree />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/careActionForm/:id">
+            <CareActionForm />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/myTreesItem/:id">

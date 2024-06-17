@@ -16,11 +16,6 @@ function AddTree() {
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [image, setImage] = useState('');
-  const [fertilizeDate, setFertilizeDate] = useState('');
-  const [pruneDate, setPruneDate] = useState('');
-  const [decandleDate, setDecandleDate] = useState('');
-  const [repotDate, setRepotDate] = useState('');
-  const [wireDate, setWireDate] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [notes, setNotes] = useState('');
   // const { id } = useParams();
@@ -49,29 +44,6 @@ function AddTree() {
         console.error('Error uploading file:', error);
       }
     }
-  };
-
-  const updateActivityDates = (treeId) => {
-    const activities = [
-      { activity_id: 1, date: fertilizeDate },
-      { activity_id: 2, date: pruneDate },
-      { activity_id: 3, date: decandleDate },
-      { activity_id: 4, date: repotDate },
-      { activity_id: 5, date: wireDate },
-    ];
-
-    activities.forEach((activity) => {
-      if (activity.date) {
-        dispatch({
-          type: 'UPDATE_ACTIVITY_DATE',
-          payload: {
-            date_text: activity.date,
-            treeId,
-            activity_id: activity.activity_id,
-          },
-        });
-      }
-    });
   };
 
   const submitForm = async (event) => {
@@ -103,7 +75,6 @@ function AddTree() {
       await handleFileUpload(treeId);
 
       dispatch({ type: 'ADD_TREE', payload: { ...payload, id: treeId }, history });
-      updateActivityDates(treeId);
       history.push('/myTrees');
     } catch (error) {
       console.error('Error during form submission:', error);
@@ -132,39 +103,7 @@ function AddTree() {
             </option>
           ))}
         </select>
-        <div>
-          {/* <h4>No previous fertilize dates available.</h4> */}
-          <h4>Enter last date of Fertilizing</h4>
-          <input
-            type="date"
-            value={fertilizeDate}
-            onChange={(event) => setFertilizeDate(event.target.value)}
-          />
-          <h4>Enter last date of Pruning</h4>
-          <input
-            type="date"
-            value={pruneDate}
-            onChange={(event) => setPruneDate(event.target.value)}
-          />
-          <h4>Enter last date of Wiring</h4>
-          <input
-            type="date"
-            value={wireDate}
-            onChange={(event) => setWireDate(event.target.value)}
-          />
-          <h4>Enter last date of Repot</h4>
-          <input
-            type="date"
-            value={repotDate}
-            onChange={(event) => setRepotDate(event.target.value)}
-          />
-          <h4>Enter last date of Decandling</h4>
-          <input
-            type="date"
-            value={decandleDate}
-            onChange={(event) => setDecandleDate(event.target.value)}
-          />
-        </div>
+        
         <p>Notes: <textarea value={notes} onChange={(event) => setNotes(event.target.value)} /></p>
         <p>Image:</p>
         <input type="file" name="images" multiple onChange={(event) => setImage(event.target.files[0])} />
