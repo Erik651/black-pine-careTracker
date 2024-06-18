@@ -25,6 +25,11 @@ import Archive from '../Archive/Archive';
 import Links from '../Links/Links';
 import EditTree from '../EditTree/EditTree';
 import MyTreesItem from '../MyTreesItem/MyTreesItem';
+import DecandleResources from '../DecandleResources/DecandleResources';
+import RepotResources from '../RepotResources/RepotResources';
+import FertilizeResources from '../FertilizeResources/FertilizeResources';
+import WireResources from '../WireResources/WireResources';
+import PruneResources from '../PruneResources/PruneResources';
 import './App.css';
 import CareActionForm from '../CareActionForm/CareActionForm';
 
@@ -100,6 +105,26 @@ function App() {
 
           <ProtectedRoute exact path="/links">
             <Links />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/repot">
+            <RepotResources />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/fertilize">
+            <FertilizeResources />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/decandle">
+            <DecandleResources />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/prune">
+            <PruneResources />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/wire">
+            <WireResources />
           </ProtectedRoute>
 
           <Route exact path="/login">
