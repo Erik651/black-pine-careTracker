@@ -2,7 +2,7 @@ import React from 'react';
 import YouTube from 'react-youtube';
 import { useHistory } from 'react-router-dom';
 
-const pruneResources = () => {
+function PruneResources() {
   const history = useHistory();
 
   const videos = [
@@ -53,4 +53,4 @@ const pruneResources = () => {
   );
 };
 
-export default pruneResources;
+export default PruneResources;

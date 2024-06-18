@@ -2,7 +2,7 @@ import React from 'react';
 import YouTube from 'react-youtube';
 import { useHistory } from 'react-router-dom';
 
-const repotResources = () => {
+function RepotResources() {
   
   const history = useHistory();
 
@@ -52,4 +52,4 @@ const repotResources = () => {
     </div>
   );
 };
-export default repotResources;
+export default RepotResources;

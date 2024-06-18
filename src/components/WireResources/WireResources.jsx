@@ -2,7 +2,7 @@ import React from 'react';
 import YouTube from 'react-youtube';
 import { useHistory } from 'react-router-dom';
 
-const wireResources = () => {
+function WireResources() {
 
   const history = useHistory();
 
@@ -54,4 +54,4 @@ const wireResources = () => {
   );
 };
 
-export default wireResources;
+export default WireResources;

@@ -2,7 +2,7 @@ import React from 'react';
 import YouTube from 'react-youtube';
 import { useHistory } from 'react-router-dom';
 
-const decandleResources = () => {
+function DecandleResources() {
   const history = useHistory();
   
   const videos = [
@@ -52,4 +52,4 @@ const decandleResources = () => {
   );
 };
 
-export default decandleResources;
+export default DecandleResources;

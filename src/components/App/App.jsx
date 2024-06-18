@@ -30,6 +30,7 @@ import RepotResources from '../RepotResources/RepotResources';
 import FertilizeResources from '../FertilizeResources/FertilizeResources';
 import WireResources from '../WireResources/WireResources';
 import PruneResources from '../PruneResources/PruneResources';
+import ImageUpload from '../ImageUpload/ImageUpload';
 import './App.css';
 import CareActionForm from '../CareActionForm/CareActionForm';
 
@@ -125,6 +126,10 @@ function App() {
 
           <ProtectedRoute exact path="/wire">
             <WireResources />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/imageUpload/:id">
+            <ImageUpload />
           </ProtectedRoute>
 
           <Route exact path="/login">

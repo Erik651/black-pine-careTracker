@@ -3,8 +3,8 @@ import YouTube from 'react-youtube';
 import { useHistory } from 'react-router-dom';
 
 
-  const  fertilizeResources = () => {
-    
+  function  FertilizeResources() {
+
     const history = useHistory();
 
     const videos = [
@@ -56,4 +56,4 @@ import { useHistory } from 'react-router-dom';
 
 
 
-export default fertilizeResources;
+export default FertilizeResources;

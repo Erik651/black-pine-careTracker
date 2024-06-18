@@ -98,6 +98,9 @@ function MyTreesItem() {
           <Link to={`/careActionForm/${treeToDisplay.id}`}>Care Action Form</Link>
           <br />
           <br />
+          <Link to={`/imageUpload/${treeToDisplay.id}`}>Upload Image</Link>
+          <br/>
+          <br/>
           <button onClick={handleDelete}>Delete</button>
           <br />
           <br />

@@ -48,31 +48,31 @@ function EditTree() {
     console.log(payload, 'submitForm payload');
   };
 
-  const handleFileUpload = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    const files = event.target.images.files;
-    for (let i = 0; i < files.length; i++) {
-      formData.append('images', files[i]);
-    }
-    formData.append('tree_id', id); // Append tree_id to the form data
-    // For single image upload 
-    // formData.append('image', event.target.image.files[0]);
-    // formData.append('tree_id', id); // Append tree_id to the form data
+  // const handleFileUpload = async (event) => {
+  //   event.preventDefault();
+  //   const formData = new FormData();
+  //   const files = event.target.images.files;
+  //   for (let i = 0; i < files.length; i++) {
+  //     formData.append('images', files[i]);
+  //   }
+  //   formData.append('tree_id', id); // Append tree_id to the form data
+  //   // For single image upload 
+  //   // formData.append('image', event.target.image.files[0]);
+  //   // formData.append('tree_id', id); // Append tree_id to the form data
 
-    try {
-      const response = await fetch('/api/upload/multiple', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.text();
-      alert("successful image upload")
-      console.log(data);
-      history.push(`/myTreesItem/${id}`);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    }
-  };
+  //   try {
+  //     const response = await fetch('/api/upload/multiple', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
+  //     const data = await response.text();
+  //     alert("successful image upload")
+  //     console.log(data);
+  //     history.push(`/myTreesItem/${id}`);
+  //   } catch (error) {
+  //     console.error('Error uploading file:', error);
+  //   }
+  // };
 
   const goBack = () => {
     history.goBack();
@@ -125,14 +125,15 @@ function EditTree() {
         
 
         <input type="submit" value="Save" />
+        
       </form>
-          <p>
+          {/* <p>
             Image:{' '}
           </p>
           <form onSubmit={handleFileUpload} encType="multipart/form-data">
             <input type="file" name="images" multiple />
             <button type="submit">Submit</button>
-          </form>
+          </form> */}
     </div>
   );
 }
