@@ -7,12 +7,14 @@ function PruneResources() {
 
   const videos = [
     { videoId: '1Tvyam459sQ', title: 'At 16:18; Pruning Tip' },
-    { videoId: 'KjcolFzZZeI', title: 'Title for KjcolFzZZeI' },
-    { videoId: '58FmPOxEyhQ', title: 'Title for 58FmPOxEyhQ' },
+    { videoId: 'omJIkworeRU', title: 'How to Prune Japanese Black Pine Bonsai. Bonsai Heirloom @bonsaiheirloom' },
+    { videoId: '8JWRenbHNys', title: 'How to Prune and Decandle your Black Pine Bonsai. Eastern Leaf @easternleaf' },
   ];
 
   const urlLinks = [
-    {  url: 'https://bonsaitonight.com/2014/07/18/developing-black-pine-setting-the-first-curves/', title: 'Great Artcile by JONAS DUPUICH'  }
+    {  url: 'https://capitalbonsai.wordpress.com/2012/02/01/pruning-a-large-japanese-black-pine/', title: 'Pruning a large Japanese Black Pine. by aarinpackard'  },
+    {  url: 'https://greg.app/how-to-prune-japanese-black-pine/', title: 'How and When Should I Cut Back My Japanese Black Pine? By Kiersten Rankel'  },
+    {  url: 'https://najga.org/the-basics-on-fall-pruning-for-japanese-black-pine-trees/', title: 'The Basics on Fall Pruning for Japanese Black Pine Trees. by NAJGA Manager | Oct 29, 2023'  },
   ]
 
   const opts = {

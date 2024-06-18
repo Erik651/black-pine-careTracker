@@ -7,13 +7,15 @@ function RepotResources() {
   const history = useHistory();
 
   const videos = [
-    { videoId: '1Tvyam459sQ', title: 'At 57:45, Repotting Tip' },
-    { videoId: 'KjcolFzZZeI', title: 'Title for KjcolFzZZeI' },
-    { videoId: '58FmPOxEyhQ', title: 'Title for 58FmPOxEyhQ' },
+    { videoId: '1Tvyam459sQ', title: 'Unlock the Secrets to Thriving Japanese Black Pine Bonsai Trees. At 57:45, Repotting Tip. Bonsai-En @BonsaiEn' },
+    { videoId: 'jbttuUsq5V8&t', title: 'Japanese Black Pine Repotting basics - ABC. Terry Erasmus @TerryErasmusbonsai' },
+    { videoId: 'VOzd3ZqaHBI', title: 'Repotting My Japanese Black Pine, The Bonsai Zone, Feb 2024. Nigel Saunders @TheBonsaiZone' },
   ];
 
   const urlLinks = [
-    {  url: 'https://bonsaitonight.com/2014/07/18/developing-black-pine-setting-the-first-curves/', title: 'Great Artcile by JONAS DUPUICH'  }
+    {  url: 'https://bonsaitonight.com/2011/04/22/how-to-repot-a-young-japanese-black-pine-1-of-2/', title: 'How to repot a young Japanese black pine (1 of 2). by JONAS DUPUICH'  },
+    {  url: 'https://bonsaitonight.com/2011/04/26/how-to-repot-a-young-japanese-black-pine-2-of-2/', title: 'How to repot a young Japanese black pine (2 of 2). by JONAS DUPUICH'  },
+    {  url: 'https://www.bonsaitree.co.za/blogs/tree-talk/old-imported-japanese-black-pine-gets-a-repot', title: 'OLD, IMPORTED JAPANESE BLACK PINE GETS A REPOT. https://www.bonsaitree.co.za/'  }
   ]
 
   const opts = {

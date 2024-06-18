@@ -7,13 +7,15 @@ function DecandleResources() {
   
   const videos = [
     { videoId: '1Zk2ncE2Frg', title: 'At 6:15; Decandleing Tip' },
-    { videoId: 'KjcolFzZZeI', title: 'Title for KjcolFzZZeI' },
-    { videoId: '58FmPOxEyhQ', title: 'Title for 58FmPOxEyhQ' },
+    { videoId: 'KVQ1dAIcHxA', title: 'Decandling a Large Field Grown Black Pine Bonsai. Bonsaify @Bonsaify' },
+    { videoId: 'XvQxy5vHlSg', title: 'Japanese Black Pine - Decandling (Summer). Bonsai Matsu @BonsaiMatsu' },
   ];
 
   const urlLinks = [
-    {  url: 'https://bonsaitonight.com/2014/07/18/developing-black-pine-setting-the-first-curves/', title: 'Great Artcile by JONAS DUPUICH'  }
-  ]
+    {  url: 'https://bonsaitonight.com/2016/07/22/decandling-black-pine-bonsai-overview/', title: 'Decandling black pine bonsai, an in-depth guide.  by JONAS DUPUICH'  },
+    {  url: 'https://www.bonsaify.com/blogs/news-and-more/nine-things-you-need-to-know-about-decandling-japanese-black-pine', title: 'Nine Things You Need to Know About Decandling Japanese Black Pine. Bonsaify @Bonsaify'  },
+  {  url: 'https://crataegus.com/2013/06/03/time-to-decandle-your-black-pines/', title: 'Time to Decandle your Black Pines- by crataegus'  }
+]
 
   const opts = {
     height: '390',

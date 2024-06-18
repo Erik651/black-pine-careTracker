@@ -14,7 +14,9 @@ import { useHistory } from 'react-router-dom';
     ];
 
     const urlLinks = [
-      {  url: 'https://bonsaitonight.com/2014/07/18/developing-black-pine-setting-the-first-curves/', title: 'Great Artcile by JONAS DUPUICH'  }
+      {  url: 'https://bonsaitonight.com/2017/03/21/fertilize-black-pine-bonsai/', title: 'How to fertilize black pine bonsai. by JONAS DUPUICH'  },
+      {  url: 'https://greg.app/japanese-black-pine-fertilizer/', title: 'Fertilizing My Japanese Black Pine. By Kiersten Rankel'  },
+      {  url: 'https://www.bonsainut.com/threads/my-japanese-black-pine-has-light-green-needles-so-do-i-need-to-change-the-soil.63045/', title: 'My Japanese black pine has light green needles so do I need to change the soil? Bonsai Nut Forum'  }
     ]
   
     const opts = {
