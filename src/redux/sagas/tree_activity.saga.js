@@ -1,17 +1,15 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-
-
-function* fetchTree_Activity() {
+function* fetchTree_Activity(action) {
   try {
-    const response = yield axios.get('/api/tree_activity');
-    console.log('response', response)
+    const response = yield axios.get(`/api/tree_activity/${action.payload}`);
+    console.log('response', response);
     yield put({
       type: 'SET_DATES',
       payload: response.data,
     });
-  }catch (error) {
+  } catch (error) {
     console.log('fetchTree_Activity error', error);
   }
 }

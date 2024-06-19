@@ -16,7 +16,7 @@
 //   const [decandleDate, setDecandleDate] = useState('');
 //   const [repotDate, setRepotDate] = useState('');
 //   const [wireDate, setWireDate] = useState('');
-  
+
 //   const history = useHistory();
 
 //   const { id: treeId } = useParams();
@@ -47,7 +47,7 @@
 //         history,
 //       });
 //     }
-   
+
 //   };
 
 //   // const handleInitialDatesSubmit = () => {
@@ -149,19 +149,19 @@ function CareActionForm() {
   const [decandleDate, setDecandleDate] = useState('');
   const [repotDate, setRepotDate] = useState('');
   const [wireDate, setWireDate] = useState('');
-  const [reload, setReload] = useState(false);
   const history = useHistory();
   const { id: treeId } = useParams();
 
   useEffect(() => {
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
-  }, [dispatch, treeId, reload]);
+  }, [treeId]);
 
   const submitForm = (event, activityId, date) => {
+    console.log('event', event, 'activityId', activityId, 'date', date);
     event.preventDefault();
     const payload = { date_text: date, treeId, activity_id: activityId };
-
+    console.log('payload', payload);
     // Check if the activity already has a date in the filteredDates
     const existingActivity = datesToDisplay.find(
       (date) => date.tree_id === treeId && date.activity_id === activityId
@@ -180,7 +180,6 @@ function CareActionForm() {
         history,
       });
     }
-    setReload(!reload);
   };
 
   if (!treeToDisplay) {
@@ -198,13 +197,21 @@ function CareActionForm() {
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
-    return isNaN(date.getTime()) ? 'Invalid Date' : date.toISOString().split('T')[0];
+    return isNaN(date.getTime())
+      ? 'Invalid Date'
+      : date.toISOString().split('T')[0];
   };
 
   const renderForm = (label, activityId, value, setValue, dates) => (
+    // console.log(setValue, 'setValue')
     <div key={activityId}>
       <h3>Care Action Taken --{label}--</h3>
-      <h4>Last Date {label} Applied: {dates.length > 0 ? formatDate(dates[0].date_text) : 'N/A'}</h4>
+      <h4>
+        Last Date {label} Applied:{' '}
+        {dates.length > 0
+          ? formatDate(dates[dates.length - 1].date_text)
+          : 'N/A'}
+      </h4>
       <input
         type="date"
         value={value}
@@ -214,7 +221,7 @@ function CareActionForm() {
       <button onClick={(e) => submitForm(e, activityId, value)}>Submit</button>
     </div>
   );
-
+  // console.log(renderForm, 'renderForm')
   return (
     <div>
       <h1>{treeToDisplay.name}</h1>
@@ -223,11 +230,41 @@ function CareActionForm() {
         <section className="myTreesItem">
           {treeToDisplay.status_id === 1 && (
             <>
-              {renderForm('Fertilize', 1, fertilizeDate, setFertilizeDate, filteredDates.filter(date => date.activity_id === 1))}
-              {renderForm('Prune', 2, pruneDate, setPruneDate, filteredDates.filter(date => date.activity_id === 2))}
-              {renderForm('Decandle', 3, decandleDate, setDecandleDate, filteredDates.filter(date => date.activity_id === 3))}
-              {renderForm('Wire', 5, wireDate, setWireDate, filteredDates.filter(date => date.activity_id === 5))}
-              {renderForm('Repot', 4, repotDate, setRepotDate, filteredDates.filter(date => date.activity_id === 4))}
+              {renderForm(
+                'Fertilize',
+                1,
+                fertilizeDate,
+                setFertilizeDate,
+                filteredDates.filter((date) => date.activity_id === 1)
+              )}
+              {renderForm(
+                'Prune',
+                2,
+                pruneDate,
+                setPruneDate,
+                filteredDates.filter((date) => date.activity_id === 2)
+              )}
+              {renderForm(
+                'Decandle',
+                3,
+                decandleDate,
+                setDecandleDate,
+                filteredDates.filter((date) => date.activity_id === 3)
+              )}
+              {renderForm(
+                'Wire',
+                5,
+                wireDate,
+                setWireDate,
+                filteredDates.filter((date) => date.activity_id === 5)
+              )}
+              {renderForm(
+                'Repot',
+                4,
+                repotDate,
+                setRepotDate,
+                filteredDates.filter((date) => date.activity_id === 4)
+              )}
             </>
           )}
         </section>
@@ -237,4 +274,3 @@ function CareActionForm() {
 }
 
 export default CareActionForm;
-

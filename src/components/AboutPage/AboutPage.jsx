@@ -1,20 +1,63 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Carousel from 'react-material-ui-carousel';
+import { Paper, Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
-// This is one of our simplest components
-// It doesn't have local state,
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is'
+// Convert array buffer to base64
+const arrayBufferToBase64 = (buffer) => {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+};
 
 function AboutPage() {
+  const dispatch = useDispatch();
+  const imagesToDisplay = useSelector((store) => store.allImages);
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_ALL_IMAGES' });
+  }, [dispatch]);
+
   return (
     <div className="container">
       <div>
-      <p>Timing is everything when it comes to developing quality Black Pine Bonsai trees. All trees require the same basic steps to create bonsai, but the timing of these steps can vary dramatically depending on species. Pines grow what is known as a candle. These candles develop into the needles and eventually into a branch.  The majority of pines grow a single flush per growing season. This means that each season the trees grow one flush of candles. The Black Pine grows two flushes pre season; double-flush. The Black Pine having multiple flushes offers the bonsai artist the opportunity, if done at the right time, to keep balanced growth by timely fertilizing, pruning(de-candling), wiring, and repotting. Taking these steps at the wrong time can lead to undesirable growth, weakening the tree or even killing your precious little tree.  I have experienced the latter more times than I would like to admit to here. The Black Pine CareTracker is designed to help the Black Pine care taker know when to take timely care actions. 
-The Black Pine Care Tracker achieves this by tracking the ideal times of the year to prune(de-candle), fertilize, repot and wire. It displays to the user the ideal date for each step.  
-The User will be able to record the date that care actions are taken and the Black Pine CareTracker will display to the user the next ideal time for care actions to be taken again. Also the user will be able to save notes for individual trees, save resource links in the form of url links, upload photos(stretch goal), and maintain an archive of trees that have been sold, gifted or passed on to the great forest in the sky. The goal of the Black Pine CareTracker is to help the user keep their Black Pine trees alive, thrive and develop into the best possible bonsai.
-</p>
+        <h1>Black Pine CareTracker</h1>
+        <p>
+          Timing is everything when it comes to applying care for quality Black
+          Pine Bonsai trees.
+        </p>
       </div>
+      <Example images={imagesToDisplay} />
     </div>
+  );
+}
+
+function Example({ images }) {
+  return (
+    <Carousel>
+      {images.map((image, i) => (
+        <Item key={i} image={image} />
+      ))}
+    </Carousel>
+  );
+}
+
+function Item({ image }) {
+  return (
+    <Paper>
+      <img
+        src={`data:${image.mimetype};base64,${arrayBufferToBase64(
+          image.image_data.data
+        )}`}
+        alt={image.filename}
+        style={{ maxWidth: '200px', margin: '10px' }}
+      />
+      <Button className="CheckButton">Check it out!</Button>
+    </Paper>
   );
 }
 

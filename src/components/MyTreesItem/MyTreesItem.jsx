@@ -8,10 +8,10 @@ function MyTreesItem() {
   const treeToDisplay = useSelector((store) => store.selectedTree);
   const datesToDisplay = useSelector((store) => store.tree_activity);
   const imagesToDisplay = useSelector((store) => store.images) || [];
-  
+
   const history = useHistory();
   const { id: treeId } = useParams();
-  
+
   useEffect(() => {
     dispatch({ type: 'FETCH_SELECTED_TREE', payload: treeId });
     dispatch({ type: 'FETCH_TREE_ACTIVITY_DATES', payload: treeId });
@@ -19,7 +19,9 @@ function MyTreesItem() {
   }, [dispatch, treeId]);
 
   const handleDelete = () => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this tree?');
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this tree?'
+    );
     if (confirmDelete) {
       dispatch({ type: 'DELETE_TREE', payload: treeId, history });
     }
@@ -32,7 +34,7 @@ function MyTreesItem() {
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     if (isNaN(date.getTime())) {
-      return 'Invalid Date';
+      return 'n/a';
     }
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -41,22 +43,31 @@ function MyTreesItem() {
   };
 
   const normalizedTreeId = parseInt(treeId, 10);
-  const filteredDates = datesToDisplay.filter((date) => date.tree_id === normalizedTreeId);
+  const filteredDates = datesToDisplay.filter(
+    (date) => date.tree_id === normalizedTreeId
+  );
 
   const renderLastActionDates = () => {
-    const activityTypes = {
-      1: 'Fertilize',
-      2: 'Prune',
-      3: 'Decandle',
-      4: 'Repot',
-      5: 'Wire',
-    };
-
-    return filteredDates.map((date) => (
-      <div key={date.activity_id}>
-        <p>Last {activityTypes[date.activity_id]} Date: {formatDate(date.date_text)}</p>
+    const activityTypes = ['Fertilize', 'Prune', 'Decandle', 'Repot', 'Wire'];
+    return activityTypes.map((activity, i) => (
+      <div key={i}>
+        <p>
+          Last {activity} Date:{' '}
+          {formatDate(
+            filteredDates.findLast((date) => date.activity_id == i + 1)
+              ?.date_text
+          )}
+        </p>
       </div>
     ));
+    // return filteredDates.map((date) => (
+    //   <div key={date.id}>
+    //     <p>
+    //       Last {activityTypes[date.activity_id]} Date:{' '}
+    //       {formatDate(date.date_text)}
+    //     </p>
+    //   </div>
+    // ));
   };
 
   const arrayBufferToBase64 = (buffer) => {
@@ -86,21 +97,25 @@ function MyTreesItem() {
             {imagesToDisplay.map((image) => (
               <img
                 key={image.id}
-                src={`data:${image.mimetype};base64,${arrayBufferToBase64(image.image_data.data)}`}
+                src={`data:${image.mimetype};base64,${arrayBufferToBase64(
+                  image.image_data.data
+                )}`}
                 alt={image.filename}
                 style={{ maxWidth: '200px', margin: '10px' }}
               />
             ))}
           </div>
           <Link to={`/editTree/${treeToDisplay.id}`}>Edit</Link>
-          <br/>
-          <br/>
-          <Link to={`/careActionForm/${treeToDisplay.id}`}>Care Action Form</Link>
+          <br />
+          <br />
+          <Link to={`/careActionForm/${treeToDisplay.id}`}>
+            Care Action Form
+          </Link>
           <br />
           <br />
           <Link to={`/imageUpload/${treeToDisplay.id}`}>Upload Image</Link>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <button onClick={handleDelete}>Delete</button>
           <br />
           <br />
